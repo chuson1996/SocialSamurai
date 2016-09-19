@@ -124,7 +124,7 @@
     "pretty-error": "^1.2.0",
     "react": "^15.0.2",
     "react-addons-update": "^15.1.0",
-    "react-bootstrap": "^0.28.1",
+    "react-bootstrap": "^0.28.5",
     "react-dom": "^15.1.0",
     "react-helmet": "^2.2.0",
     "react-inline-css": "^2.0.0",

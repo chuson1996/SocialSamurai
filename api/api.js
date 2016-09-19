@@ -13,6 +13,7 @@ import connect from 'connect';
 import sessionMongoose from 'session-mongoose';
 import mongoose from 'mongoose';
 
+import {get as abcGet} from './actions/abc';
 // const FacebookStrategy = FacebookPassport.Strategy;
 
 /** MongoDB Setup */
@@ -33,7 +34,7 @@ const io = new SocketIo(server);
 io.path('/ws');
 
 app.use(session({
-	secret: 'react and redux rule!!!!',
+	secret: 'socialsamurai',
 	resave: false,
 	saveUninitialized: false,
 	cookie: { maxAge: 60000 },
@@ -41,32 +42,34 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-	const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
+app.get('/abc', abcGet);
 
-	const {action, params} = mapUrl(actions, splittedUrlPath);
+// app.use((req, res, next) => {
+// 	const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
 
-	if (action) {
-		action(req, params)
-			.then((result) => {
-				if (result instanceof Function) {
-					result(res, next);
-				} else {
-					res.json(result);
-				}
-			})
-			.catch((reason) => {
-				if (reason && reason.redirect) {
-					res.redirect(reason.redirect);
-				} else {
-					console.error('API ERROR:', pretty.render(reason));
-					res.status(reason.status || 500).json(reason);
-				}
-			});
-	} else {
-		res.status(404).end('NOT FOUND');
-	}
-});
+// 	const {action, params} = mapUrl(actions, splittedUrlPath);
+
+// 	if (action) {
+// 		action(req, params)
+// 			.then((result) => {
+// 				if (result instanceof Function) {
+// 					result(res, next);
+// 				} else {
+// 					res.json(result);
+// 				}
+// 			})
+// 			.catch((reason) => {
+// 				if (reason && reason.redirect) {
+// 					res.redirect(reason.redirect);
+// 				} else {
+// 					console.error('API ERROR:', pretty.render(reason));
+// 					res.status(reason.status || 500).json(reason);
+// 				}
+// 			});
+// 	} else {
+// 		res.status(404).end('NOT FOUND');
+// 	}
+// });
 
 
 const bufferSize = 100;
