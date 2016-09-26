@@ -2,30 +2,30 @@ import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import config from '../src/config';
-import * as actions from './actions/index';
-import {mapUrl} from 'utils/url.js';
-import PrettyError from 'pretty-error';
+// import * as actions from './actions/index';
+// import {mapUrl} from 'utils/url.js';
+// import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 // import passport from 'passport';
 // import FacebookPassport from 'passport-facebook';
-import connect from 'connect';
-import sessionMongoose from 'session-mongoose';
-import mongoose from 'mongoose';
+// import connect from 'connect';
+// import sessionMongoose from 'session-mongoose';
+// import mongoose from 'mongoose';
 
 import {get as abcGet} from './actions/abc';
 // const FacebookStrategy = FacebookPassport.Strategy;
 
 /** MongoDB Setup */
-mongoose.connect(config.mongo.endpoint, {
-	server: {
-		socketOptions: { keepAlive: 1 }
-	}
-});
-const MongoSessionStore = sessionMongoose(connect);
-const sessionStore = new MongoSessionStore({url: config.mongo.endpoint});
+// mongoose.connect(config.mongo.endpoint, {
+// 	server: {
+// 		socketOptions: { keepAlive: 1 }
+// 	}
+// });
+// const MongoSessionStore = sessionMongoose(connect);
+// const sessionStore = new MongoSessionStore({url: config.mongo.endpoint});
 
-const pretty = new PrettyError();
+// const pretty = new PrettyError();
 const app = express();
 
 const server = new http.Server(app);
@@ -38,7 +38,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	cookie: { maxAge: 60000 },
-	store: sessionStore
+	// store: sessionStore
 }));
 app.use(bodyParser.json());
 
