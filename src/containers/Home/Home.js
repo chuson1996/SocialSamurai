@@ -13,8 +13,8 @@ export default class Home extends Component {
 		// const logoImage = require('./logo.png');
 		return (
 			<div className={styles.home}>
-				<Helmet title="Home"/>
-				<h1>Welcome to SpeedVocab.</h1>
+				<Helmet title="Social Samurai"/>
+				<h1>Welcome to Social Samurai.</h1>
 				<h2>And good luck with your vocabulary test!</h2>
 			</div>
 		);

@@ -3,17 +3,8 @@ import {IndexRoute, Route, Redirect} from 'react-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
 		App,
-		// Chat,
 		Home,
-		// Widgets,
-		About,
-		Login,
-		// LoginSuccess,
-		// Survey,
-		NotFound,
-		QuizletLoginSuccess,
-		Sets,
-		Terms
+		NotFound
 	} from 'containers';
 
 export default (store) => {
@@ -34,9 +25,6 @@ export default (store) => {
 		}
 	};
 
-	/**
-	 * Please keep routes in alphabetical order
-	 */
 	return (
 		<Route path="/" component={App}>
 			{ /* Home (main) route */ }
@@ -46,18 +34,10 @@ export default (store) => {
 			<Route onEnter={requireLogin}>
 				{ /* <Route path="chat" component={Chat}/> */ }
 				<Redirect from="loginSuccess" to="sets"/>
-				{ /* <Route path="loginSuccess" component={LoginSuccess}/> */}
-				<Route path="sets" component={Sets}/>
-				<Route path="sets/:setId" component={Terms}/>
+				{ /* <Route path="loginSuccess" component={LoginSuccess}/> */ }
+				{ /* <Route path="sets" component={Sets}/> */ }
+				{ /* <Route path="sets/:setId" component={Terms}/> */ }
 			</Route>
-
-			{ /* Routes */ }
-			<Route path="about" component={About}/>
-			<Route path="login" component={Login}/>
-			<Route path="loginQuizletSuccess" component={QuizletLoginSuccess}/>
-			{ /* <Route path="survey" component={Survey}/> */ }
-			{ /* <Route path="widgets" component={Widgets}/> */ }
-
 			{ /* Catch all route */ }
 			<Route path="*" component={NotFound} status={404} />
 		</Route>
