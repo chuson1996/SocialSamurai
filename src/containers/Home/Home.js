@@ -6,6 +6,7 @@ import VideoThumbnail from './VideoThumbnail';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
+import {LinkContainer} from 'react-router-bootstrap';
 
 export default class Home extends Component {
 	render() {
@@ -19,13 +20,20 @@ export default class Home extends Component {
 				<Grid>
 					<Row>
 						<Col xs={6} md={4}>
-							<VideoThumbnail src="../../assets/handshake.png" description="Handshake"/>
+							<LinkContainer to="/challenges/1">
+								<VideoThumbnail src="../../assets/handshake.png" description="Handshake"/>
+							</LinkContainer>
+
 						</Col>
 						<Col xs={6} md={4}>
-							<VideoThumbnail src="../../assets/hugging.png" description="Hugging"/>
+							<LinkContainer to="/challenges/2">
+								<VideoThumbnail src="../../assets/hugging.png" description="Hugging"/>
+							</LinkContainer>
 						</Col>
 						<Col xs={6} md={4}>
-							<VideoThumbnail src="../../assets/shouting.png" description="Shouting"/>
+							<LinkContainer to="/challenges/3">
+								<VideoThumbnail src="../../assets/shouting.png" description="Shouting"/>
+							</LinkContainer>
 						</Col>
 					</Row>
 				</Grid>

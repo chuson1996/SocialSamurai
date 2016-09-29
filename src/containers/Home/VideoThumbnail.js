@@ -1,12 +1,15 @@
 import React from 'react';
-import Thumbnail from 'react-bootstrap/lib/Thumbnail';
+// import Thumbnail from 'react-bootstrap/lib/Thumbnail';
+// import { Link } from 'react-router';
 
 const VideoThumbnail = ({src, description}) => {
     const styles = require('./Home.scss');
+    // console.log(rest);
     return (
-        <Thumbnail src={src}>
+        <a src={src} className="thumbnail">
+            <img src={src}/>
             <h3 className={styles['thumbnail-title']}>{description}</h3>
-        </Thumbnail>
+        </a>
     );
 };
 
