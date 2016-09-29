@@ -30,7 +30,7 @@ export default (store) => {
 		<Route path="/" component={App}>
 			{ /* Home (main) route */ }
 			<IndexRoute component={Home}/>
-			<Route path="challenge/:challengeId" component={Challenge} />
+			<Route path="challenges/:challengeId" component={Challenge} />
 
 			{ /* Routes requiring login */ }
 			<Route onEnter={requireLogin}>
