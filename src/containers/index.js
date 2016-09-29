@@ -10,3 +10,4 @@ export NotFound from './NotFound/NotFound';
 // export QuizletLoginSuccess from './QuizletLoginSuccess/QuizletLoginSuccess';
 // export Sets from './Sets/Sets';
 // export Terms from './Terms/Terms';
+export Challenge from './Challenge/Challenge';
