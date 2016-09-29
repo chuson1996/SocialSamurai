@@ -4,7 +4,8 @@ import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
 		App,
 		Home,
-		NotFound
+		NotFound,
+		Challenge
 	} from 'containers';
 
 export default (store) => {
@@ -29,6 +30,7 @@ export default (store) => {
 		<Route path="/" component={App}>
 			{ /* Home (main) route */ }
 			<IndexRoute component={Home}/>
+			<Route path="challenge/:challengeId" component={Challenge} />
 
 			{ /* Routes requiring login */ }
 			<Route onEnter={requireLogin}>
