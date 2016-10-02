@@ -2,30 +2,14 @@ import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import config from '../src/config';
-// import * as actions from './actions/index';
-// import {mapUrl} from 'utils/url.js';
-// import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-// import passport from 'passport';
-// import FacebookPassport from 'passport-facebook';
-// import connect from 'connect';
-// import sessionMongoose from 'session-mongoose';
-// import mongoose from 'mongoose';
+import 'models/db';
 
 import {get as abcGet} from './actions/abc';
-// const FacebookStrategy = FacebookPassport.Strategy;
+import * as userController from 'controllers/user';
+import * as challengeController from 'controllers/challenge';
 
-/** MongoDB Setup */
-// mongoose.connect(config.mongo.endpoint, {
-// 	server: {
-// 		socketOptions: { keepAlive: 1 }
-// 	}
-// });
-// const MongoSessionStore = sessionMongoose(connect);
-// const sessionStore = new MongoSessionStore({url: config.mongo.endpoint});
-
-// const pretty = new PrettyError();
 const app = express();
 
 const server = new http.Server(app);
@@ -40,37 +24,24 @@ app.use(session({
 	cookie: { maxAge: 60000 },
 	// store: sessionStore
 }));
+app.disable('etag');
 app.use(bodyParser.json());
 
 app.get('/abc', abcGet);
 
-// app.use((req, res, next) => {
-// 	const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
+// user routes
+app.get('/users', userController.userRetrieveList);
+app.get('/users/:userId', userController.userRetrieveOne);
+app.post('/users', userController.userCreate);
+app.put('/users/:userId', userController.userModify);
+app.delete('/users/:userId', userController.userDestroy);
 
-// 	const {action, params} = mapUrl(actions, splittedUrlPath);
-
-// 	if (action) {
-// 		action(req, params)
-// 			.then((result) => {
-// 				if (result instanceof Function) {
-// 					result(res, next);
-// 				} else {
-// 					res.json(result);
-// 				}
-// 			})
-// 			.catch((reason) => {
-// 				if (reason && reason.redirect) {
-// 					res.redirect(reason.redirect);
-// 				} else {
-// 					console.error('API ERROR:', pretty.render(reason));
-// 					res.status(reason.status || 500).json(reason);
-// 				}
-// 			});
-// 	} else {
-// 		res.status(404).end('NOT FOUND');
-// 	}
-// });
-
+// challenge routes
+app.get('/challenges', challengeController.challengeRetrieveList);
+app.get('/challenges/:challengeId', challengeController.challengeRetrieveOne);
+app.post('/challenges', challengeController.challengeCreate);
+app.put('/challenges/:challengeId', challengeController.challengeModify);
+app.delete('/challenges/:challengeId', challengeController.challengeDestroy);
 
 const bufferSize = 100;
 const messageBuffer = new Array(bufferSize);
