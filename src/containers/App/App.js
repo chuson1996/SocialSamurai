@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
 // import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
-import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+// import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
@@ -19,21 +19,25 @@ import { asyncConnect } from 'redux-async-connect';
 		// if (!isInfoLoaded(getState())) {
 		// 	promises.push(dispatch(loadInfo()));
 		// }
-		if (!isAuthLoaded(getState())) {
-			promises.push(dispatch(loadAuth()));
-		}
+		// if (!isAuthLoaded(getState())) {
+		// 	promises.push(dispatch(loadAuth()));
+		// }
 
 		return Promise.all(promises);
 	}
 }])
 @connect(
 	state => ({user: state.auth.user}),
-	{logout, pushState: push})
+	{
+		// logout,
+		pushState: push
+	}
+)
 export default class App extends Component {
 	static propTypes = {
 		children: PropTypes.object.isRequired,
 		user: PropTypes.object,
-		logout: PropTypes.func.isRequired,
+		// logout: PropTypes.func.isRequired,
 		pushState: PropTypes.func.isRequired
 	};
 
@@ -53,7 +57,7 @@ export default class App extends Component {
 
 	handleLogout = (event) => {
 		event.preventDefault();
-		this.props.logout();
+		// this.props.logout();
 	};
 
 	render() {
