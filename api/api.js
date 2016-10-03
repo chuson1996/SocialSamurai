@@ -4,11 +4,14 @@ import bodyParser from 'body-parser';
 import config from '../src/config';
 import http from 'http';
 import SocketIo from 'socket.io';
+import passport from 'passport';
 import 'models/db';
+import 'config';
 
 import {get as abcGet} from './actions/abc';
 import * as userController from 'controllers/user';
 import * as challengeController from 'controllers/challenge';
+import * as authController from 'controllers/auth';
 
 const app = express();
 
@@ -26,6 +29,8 @@ app.use(session({
 }));
 app.disable('etag');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
 
 app.get('/abc', abcGet);
 
@@ -42,6 +47,10 @@ app.get('/challenges/:challengeId', challengeController.challengeRetrieveOne);
 app.post('/challenges', challengeController.challengeCreate);
 app.put('/challenges/:challengeId', challengeController.challengeModify);
 app.delete('/challenges/:challengeId', challengeController.challengeDestroy);
+
+// authentication routes
+app.post('/register', authController.register);
+app.post('/login', authController.login);
 
 const bufferSize = 100;
 const messageBuffer = new Array(bufferSize);

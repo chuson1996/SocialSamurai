@@ -1,4 +1,30 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+
+var comment2ndSchema = mongoose.Schema({
+    _creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    body: String,
+    date: {
+        type: Date,
+        default: Date.now
+    },
+});
+
+const commentSchema = mongoose.Schema({
+    _creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    body: String,
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    comments: [comment2ndSchema]
+});
+
 const challengeSchema = mongoose.Schema({
     title: {
         type: String,
@@ -8,9 +34,11 @@ const challengeSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    link: {
+    videoUrl: {
         type: String,
         required: true
-    }
+    },
+    comments: [commentSchema]
 });
+
 export default mongoose.model('Challenge', challengeSchema);

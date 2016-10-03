@@ -53,6 +53,8 @@ module.exports = Object.assign({
 	},
 	mongo: {
 		// endpoint: 'mongodb://admin:admin@ds011369.mlab.com:11369/speedvocab2'
-		endpoint: 'mongodb://localhost:27017/sosam'
+		endpoint: (process.env.NODE_ENV === 'development') ?
+			'mongodb://127.0.0.1:27017/sosam' : 'mongodb://admin:admin@ds011369.mlab.com:11369/sosam'
+		// endpoint: 'mongodb://127.0.0.1:27017/sosam'
 	}
 }, environment);
