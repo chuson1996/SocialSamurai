@@ -1,0 +1,18 @@
+.title {
+  text-align: center;
+}
+
+.locked-video {
+  opacity: 0.1;
+}
+
+.lock-icon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 5em;
+  color: black;
+}

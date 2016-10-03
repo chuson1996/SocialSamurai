@@ -11,3 +11,4 @@ export NotFound from './NotFound/NotFound';
 // export Sets from './Sets/Sets';
 // export Terms from './Terms/Terms';
 export Challenge from './Challenge/Challenge';
+export Login from './Login/Login';

@@ -5,7 +5,8 @@ import {
 		App,
 		Home,
 		NotFound,
-		Challenge
+		Challenge,
+		Login
 	} from 'containers';
 
 export default (store) => {
@@ -31,6 +32,7 @@ export default (store) => {
 			{ /* Home (main) route */ }
 			<IndexRoute component={Home}/>
 			<Route path="challenges/:challengeId" component={Challenge} />
+			<Route path="login" component={Login} />
 
 			{ /* Routes requiring login */ }
 			<Route onEnter={requireLogin}>
