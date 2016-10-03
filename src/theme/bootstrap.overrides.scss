@@ -60,4 +60,25 @@
  *
  */
 
+@for $i from 1 through 20 {
+	.m-l-#{$i} {
+		margin-left: 0px + $i;
+	}
+	.m-r-#{$i} {
+		margin-right: 0px + $i;
+	}
+	.m-t-#{$i} {
+		margin-top: 0px + $i;
+	}
+	.m-b-#{$i} {
+		margin-bottom: 0px + $i;
+	}
+}
 
+a {
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
