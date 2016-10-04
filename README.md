@@ -8,6 +8,10 @@ Theme: https://html5up.net/future-imperfect
 ## Populate the database
 
 ```bash
-mongo < db-script.js
+mongo ds029456.mlab.com:29456/social-samurai -u admin -p admin < db-script.js
 ```
 
+## Connect to MongoLab
+```bash
+mongo ds029456.mlab.com:29456/social-samurai -u admin -p admin
+```

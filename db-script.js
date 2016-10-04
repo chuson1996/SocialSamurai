@@ -1,7 +1,7 @@
 /**
  * Created by hieu on 9/27/16.
  */
-db = db.getSiblingDB('sosam');
+db = db.getSiblingDB('social-samurai');
 db.getCollectionNames();
 
 // Populate users
