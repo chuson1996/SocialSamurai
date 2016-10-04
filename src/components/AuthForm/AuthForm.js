@@ -9,14 +9,15 @@ import {login as _login, logout as _logout} from 'redux/modules/auth';
         logout: _logout
     }
 )
-class LoginForm extends Component {
+class AuthForm extends Component {
     static propTypes = {
         handleSubmit: PropTypes.func,
         pristine: PropTypes.bool,
         submitting: PropTypes.bool,
         fields: PropTypes.object,
         login: PropTypes.func,
-        logout: PropTypes.func
+        logout: PropTypes.func,
+        formName: PropTypes.string
     };
 
     handleSubmit = (values) => {
@@ -25,7 +26,7 @@ class LoginForm extends Component {
     };
 
     render() {
-        const { handleSubmit, pristine, submitting } = this.props;
+        const { handleSubmit, pristine, submitting, formName } = this.props;
         return (
             <form onSubmit={handleSubmit(this.handleSubmit)}>
                 <div className="form-group">
@@ -42,8 +43,8 @@ class LoginForm extends Component {
                                component="input" type="password" placeholder="Password" />
                     </div>
                 </div>
-                <button className="btn btn-success" disabled={pristine || submitting}
-                        type="submit">Login</button>
+                <button className="button" disabled={pristine || submitting}
+                        type="submit">{formName}</button>
             </form>
         );
     }
@@ -52,4 +53,4 @@ class LoginForm extends Component {
 // Decorate the form component
 export default reduxForm({
     form: 'simple'
-})(LoginForm);
+})(AuthForm);

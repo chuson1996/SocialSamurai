@@ -5,5 +5,5 @@
  *
  */
 
-export LoginForm from './LoginForm/LoginForm';
 export Comment from './Comment/Comment';
+export AuthForm from './AuthForm/AuthForm';

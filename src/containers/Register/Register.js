@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/lib/Col';
 // @connect(
 //     state => ({user: state.auth.user}),
 //     authActions)
-export default class Login extends Component {
+export default class Register extends Component {
 
     static propTypes = {
         user: PropTypes.object,
@@ -16,12 +16,10 @@ export default class Login extends Component {
     };
 
     render() {
-        // const {user, logout} = this.props;
-        // const styles = require('./Login.scss');
         return (
             <Row>
                 <Col sm={6} smOffset={3} xs={12}>
-                    <AuthForm formName="Login" />
+                    <AuthForm formName="Register" />
                 </Col>
             </Row>
         );

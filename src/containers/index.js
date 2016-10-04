@@ -12,3 +12,4 @@ export NotFound from './NotFound/NotFound';
 // export Terms from './Terms/Terms';
 export Challenge from './Challenge/Challenge';
 export Login from './Login/Login';
+export Register from './Register/Register';
