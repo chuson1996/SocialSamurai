@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {AuthForm} from 'components';
+import {LoginForm} from 'components';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 // import * as authActions from 'redux/modules/auth';
@@ -21,7 +21,7 @@ export default class Login extends Component {
         return (
             <Row>
                 <Col sm={6} smOffset={3} xs={12}>
-                    <AuthForm formName="Login" />
+                    <LoginForm formName="Login" />
                 </Col>
             </Row>
         );

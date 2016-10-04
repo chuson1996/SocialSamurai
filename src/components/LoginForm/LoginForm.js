@@ -9,7 +9,7 @@ import {login as _login, logout as _logout} from 'redux/modules/auth';
 		logout: _logout
 	}
 )
-class AuthForm extends Component {
+class LoginForm extends Component {
 	static propTypes = {
 		handleSubmit: PropTypes.func,
 		pristine: PropTypes.bool,
@@ -52,5 +52,5 @@ class AuthForm extends Component {
 
 // Decorate the form component
 export default reduxForm({
-	form: 'simple'
-})(AuthForm);
+	form: 'login'
+})(LoginForm);

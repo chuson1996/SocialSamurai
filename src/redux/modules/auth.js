@@ -8,6 +8,9 @@ const LOGIN_FAIL = 'redux-example/auth/LOGIN_FAIL';
 const LOGOUT = 'redux-example/auth/LOGOUT';
 const LOGOUT_SUCCESS = 'redux-example/auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'redux-example/auth/LOGOUT_FAIL';
+const REGISTER = 'redux-example/auth/REGISTER';
+const REGISTER_SUCCESS = 'redux-example/auth/REGISTER_SUCCESS';
+const REGISTER_FAIL = 'redux-example/auth/REGISTER_FAIL';
 
 const initialState = {
 	loaded: false
@@ -85,14 +88,20 @@ export function load() {
 	};
 }
 
-export function login(user) {
+export function login({ email, password }) {
 	return {
 		types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
 		promise: (client) => client.post('/login', {
-			data: {
-				email: user.email,
-				password: user.password
-			}
+			data: { email, password }
+		})
+	};
+}
+
+export function register({ email, password, name }) {
+	return {
+		types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+		promise: (client) => client.post('/register', {
+			data: { email, password, name }
 		})
 	};
 }
