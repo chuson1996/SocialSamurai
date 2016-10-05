@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import {reduxForm, Field} from 'redux-form';
 import {register as _register} from 'redux/modules/auth';
+import {browserHistory} from 'react-router';
 
 @connect(
 	null, {
@@ -24,8 +25,12 @@ class RegisterForm extends Component {
 		});
 	};
 
+	redirectToLogin = () => {
+		browserHistory.push('/login');
+	};
+
 	render() {
-		const { handleSubmit, pristine, submitting, formName } = this.props;
+		const { handleSubmit, pristine, submitting } = this.props;
 		return (
 			<form onSubmit={handleSubmit(this.handleSubmit)}>
 				<div className="form-group">
@@ -50,7 +55,8 @@ class RegisterForm extends Component {
 					</div>
 				</div>
 				<button className="button" disabled={pristine || submitting}
-						type="submit">{formName}</button>
+						type="submit">Register</button>
+				<button className="button" onClick={this.redirectToLogin}>Login</button>
 			</form>
 		);
 	}

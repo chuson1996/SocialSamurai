@@ -19,7 +19,7 @@ export default class Register extends Component {
         return (
             <Row>
                 <Col sm={6} smOffset={3} xs={12}>
-                    <RegisterForm formName="Register" />
+                    <RegisterForm />
                 </Col>
             </Row>
         );
