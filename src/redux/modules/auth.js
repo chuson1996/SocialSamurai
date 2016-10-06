@@ -72,6 +72,22 @@ export default function reducer(state = initialState, action = {}) {
 				loggingOut: false,
 				logoutError: action.error
 			};
+		case REGISTER:
+			return {
+				...state,
+				registeringIn: true
+			};
+		case REGISTER_SUCCESS:
+			return {
+				...state,
+				user: action.result
+			};
+		case REGISTER_FAIL:
+			return {
+				...state,
+				registeringOut: false,
+				registerError: action.error
+			};
 		default:
 			return state;
 	}

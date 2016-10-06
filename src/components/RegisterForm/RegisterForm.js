@@ -5,8 +5,7 @@ import {register as _register} from 'redux/modules/auth';
 import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 
-@connect(
-	null, {
+@connect(state => ({registerError: state.auth.registerError}), {
 		register: _register,
 	}
 )
@@ -17,7 +16,8 @@ class RegisterForm extends Component {
 		submitting: PropTypes.bool,
 		fields: PropTypes.object,
 		register: PropTypes.func,
-		formName: PropTypes.string
+		formName: PropTypes.string,
+		registerError: PropTypes.object
 	};
 
 	handleSubmit = (values) => {
@@ -28,7 +28,8 @@ class RegisterForm extends Component {
 	};
 
 	render() {
-		const { handleSubmit, pristine, submitting, formName } = this.props;
+		const { handleSubmit, pristine, submitting } = this.props;
+		const styles = require('./RegisterForm.scss');
 		return (
 			<form onSubmit={handleSubmit(this.handleSubmit)}>
 				<div className="form-group">
@@ -52,8 +53,10 @@ class RegisterForm extends Component {
 							component="input" type="password" placeholder="Password" />
 					</div>
 				</div>
+				{this.props.registerError &&
+				<p className={styles['error-message']}>{this.props.registerError.message}</p>}
 				<button className="button" disabled={pristine || submitting}
-						type="submit">{formName}</button>
+						type="submit">Register</button>
 				<Link className="button m-l-10" to="/login">Login</Link>
 			</form>
 		);
