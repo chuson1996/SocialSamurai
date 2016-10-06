@@ -105,10 +105,3 @@ export function register({ email, password, name }) {
 		})
 	};
 }
-
-export function logout() {
-	return {
-		types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
-		promise: (client) => client.get('/logout')
-	};
-}

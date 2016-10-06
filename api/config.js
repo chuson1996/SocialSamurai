@@ -14,7 +14,7 @@ passport.use(new LocalStrategy({
 			}
 			if (!user) {
 				return done(null, false, {
-					message: 'Incorrect username'
+					message: 'Username does not exist'
 				});
 			}
 			if (!user.validPassword(password)) {
@@ -23,7 +23,7 @@ passport.use(new LocalStrategy({
 				});
 			}
 			return done(null, user);
-		})
+		});
 	}
 ));
 

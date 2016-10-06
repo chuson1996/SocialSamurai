@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {reduxForm, Field} from 'redux-form';
 import {register as _register} from 'redux/modules/auth';
 import {Link} from 'react-router';
+import {browserHistory} from 'react-router';
 
 @connect(
 	null, {
@@ -22,6 +23,7 @@ class RegisterForm extends Component {
 	handleSubmit = (values) => {
 		this.props.register(values).then(({token}) => {
 			localStorage.setItem('token', token);
+			browserHistory.push('/');
 		});
 	};
 
