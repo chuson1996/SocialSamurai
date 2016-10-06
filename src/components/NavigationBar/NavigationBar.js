@@ -7,14 +7,21 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import config from '../../config';
 import {browserHistory} from 'react-router';
+import {logout as _logout} from 'redux/modules/auth';
 
-@connect(state => ({
-    user: state.auth.user
-}))
+@connect(
+    state => ({user: state.auth.user
+}), {
+    logout: _logout
+})
 class NavigationBar extends React.Component {
+    static propTypes = {
+        user: PropTypes.object,
+        logout: PropTypes.func
+    };
 
     handleLogout = () => {
-        localStorage.removeItem('token');
+        this.props.logout();
         browserHistory.push('/login');
     };
 
@@ -46,9 +53,5 @@ class NavigationBar extends React.Component {
         );
     }
 }
-
-NavigationBar.propTypes = {
-    user: PropTypes.object
-};
 
 export default NavigationBar;
