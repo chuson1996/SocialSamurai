@@ -107,6 +107,7 @@
     "connect": "^2.30.2",
     "crypto": "0.0.3",
     "express": "^4.13.3",
+    "express-jwt": "^5.1.0",
     "express-session": "^1.12.1",
     "file-loader": "^0.8.5",
     "hoist-non-react-statics": "^1.0.3",

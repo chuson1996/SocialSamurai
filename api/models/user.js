@@ -19,8 +19,7 @@ const userSchema = mongoose.Schema({
     },
     avatarUrl: {
         type: String,
-        required: true,
-        default: 0
+        default: ""
     },
     hash: {
         type: String,
