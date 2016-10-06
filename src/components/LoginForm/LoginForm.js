@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm, Field} from 'redux-form';
-import {login as _login, logout as _logout} from 'redux/modules/auth';
+import {login as _login} from 'redux/modules/auth';
+import {Link} from 'react-router';
 
 @connect(
 	null, {
-		login: _login,
-		logout: _logout
+		login: _login
 	}
 )
 class LoginForm extends Component {
@@ -16,13 +16,13 @@ class LoginForm extends Component {
 		submitting: PropTypes.bool,
 		fields: PropTypes.object,
 		login: PropTypes.func,
-		logout: PropTypes.func,
 		formName: PropTypes.string
 	};
 
 	handleSubmit = (values) => {
-		console.log(values);
-		this.props.login(values);
+		this.props.login(values).then(({token}) => {
+			localStorage.setItem('token', token);
+		});
 	};
 
 	render() {
@@ -45,6 +45,7 @@ class LoginForm extends Component {
 				</div>
 				<button className="button" disabled={pristine || submitting}
 						type="submit">{formName}</button>
+				<Link className="button m-l-10" to="/register">Register</Link>
 			</form>
 		);
 	}

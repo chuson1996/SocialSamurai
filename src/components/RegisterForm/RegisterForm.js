@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import {reduxForm, Field} from 'redux-form';
 import {register as _register} from 'redux/modules/auth';
+import {Link} from 'react-router';
 
 @connect(
 	null, {
@@ -51,6 +52,7 @@ class RegisterForm extends Component {
 				</div>
 				<button className="button" disabled={pristine || submitting}
 						type="submit">{formName}</button>
+				<Link className="button m-l-10" to="/login">Login</Link>
 			</form>
 		);
 	}

@@ -16,7 +16,7 @@ export default (store) => {
 			const { auth: { user }} = store.getState();
 			if (!user) {
 				// oops, not logged in, so can't be here!
-				replace('/');
+				replace('/login');
 			}
 			cb();
 		}

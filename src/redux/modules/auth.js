@@ -106,30 +106,6 @@ export function register({ email, password, name }) {
 	};
 }
 
-export function quizletLogin(code) {
-	return {
-		types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-		promise: (client) => client.post('/loadQuizletAuth', {
-			data: {
-				code
-			}
-		})
-	};
-}
-
-export function facebookLogin() {
-	return {
-		types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-		promise: (client) => client.get('/login/facebook')
-			.catch((error) => {
-				console.dir(error);
-				if (error.crossDomain) {
-					window.location.href = 'http://localhost:3030/login/facebook';
-				}
-			})
-	};
-}
-
 export function logout() {
 	return {
 		types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
