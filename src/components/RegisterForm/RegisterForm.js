@@ -22,6 +22,7 @@ class RegisterForm extends Component {
 	handleSubmit = (values) => {
 		this.props.register(values).then(({token}) => {
 			localStorage.setItem('token', token);
+			browserHistory.push('/');
 		});
 	};
 
