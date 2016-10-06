@@ -9,21 +9,21 @@ import Col from 'react-bootstrap/lib/Col';
 //     authActions)
 export default class Login extends Component {
 
-    static propTypes = {
-        user: PropTypes.object,
-        login: PropTypes.func,
-        logout: PropTypes.func
-    };
+	static propTypes = {
+		user: PropTypes.object,
+		login: PropTypes.func,
+		logout: PropTypes.func
+	};
 
-    render() {
-        // const {user, logout} = this.props;
-        // const styles = require('./Login.scss');
-        return (
-            <Row>
-                <Col sm={6} smOffset={3} xs={12}>
-                    <LoginForm formName="Login" />
-                </Col>
-            </Row>
-        );
-    }
+	render() {
+		// const {user, logout} = this.props;
+		// const styles = require('./Login.scss');
+		return (
+			<Row>
+				<Col sm={6} smOffset={3} xs={12}>
+					<LoginForm formName="Login" />
+				</Col>
+			</Row>
+		);
+	}
 }

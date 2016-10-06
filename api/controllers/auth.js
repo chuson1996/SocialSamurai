@@ -26,7 +26,10 @@ export function register(req, res) {
 
 	user.save((err) => {
 		if (err) {
-			sendJSONresponse(res, 404, err);
+			console.log(err);
+			sendJSONresponse(res, 404, {
+				message: `There is an existing account associated with ${user.email}`
+			});
 			return;
 		}
 		const token = user.generateJwt();

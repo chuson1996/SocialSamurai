@@ -6,8 +6,6 @@ const LOGIN = 'redux-example/auth/LOGIN';
 const LOGIN_SUCCESS = 'redux-example/auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'redux-example/auth/LOGIN_FAIL';
 const LOGOUT = 'redux-example/auth/LOGOUT';
-const LOGOUT_SUCCESS = 'redux-example/auth/LOGOUT_SUCCESS';
-const LOGOUT_FAIL = 'redux-example/auth/LOGOUT_FAIL';
 const REGISTER = 'redux-example/auth/REGISTER';
 const REGISTER_SUCCESS = 'redux-example/auth/REGISTER_SUCCESS';
 const REGISTER_FAIL = 'redux-example/auth/REGISTER_FAIL';
@@ -56,21 +54,26 @@ export default function reducer(state = initialState, action = {}) {
 				loginError: action.error
 			};
 		case LOGOUT:
+			localStorage.removeItem('token');
 			return {
 				...state,
-				loggingOut: true
-			};
-		case LOGOUT_SUCCESS:
-			return {
-				...state,
-				loggingOut: false,
 				user: null
 			};
-		case LOGOUT_FAIL:
+		case REGISTER:
 			return {
 				...state,
-				loggingOut: false,
-				logoutError: action.error
+				registeringIn: true
+			};
+		case REGISTER_SUCCESS:
+			return {
+				...state,
+				user: action.result
+			};
+		case REGISTER_FAIL:
+			return {
+				...state,
+				registeringOut: false,
+				registerError: action.error
 			};
 		default:
 			return state;
@@ -106,33 +109,8 @@ export function register({ email, password, name }) {
 	};
 }
 
-export function quizletLogin(code) {
-	return {
-		types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-		promise: (client) => client.post('/loadQuizletAuth', {
-			data: {
-				code
-			}
-		})
-	};
-}
-
-export function facebookLogin() {
-	return {
-		types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-		promise: (client) => client.get('/login/facebook')
-			.catch((error) => {
-				console.dir(error);
-				if (error.crossDomain) {
-					window.location.href = 'http://localhost:3030/login/facebook';
-				}
-			})
-	};
-}
-
 export function logout() {
 	return {
-		types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
-		promise: (client) => client.get('/logout')
+		type: LOGOUT
 	};
 }
