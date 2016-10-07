@@ -97,6 +97,6 @@ export function loadAuth(req, res) {
 	}
 
 	return res.status(401).json({
-		message: 'Not authenticate'
+		message: 'Not authenticated'
 	});
 }

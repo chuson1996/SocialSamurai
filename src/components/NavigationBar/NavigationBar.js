@@ -26,7 +26,7 @@ class NavigationBar extends React.Component {
     };
 
     render() {
-        const styles = require('./NavigationBar.scss');
+        // const styles = require('./NavigationBar.scss');
         return (
             <Navbar fixedTop>
                 <Navbar.Header>

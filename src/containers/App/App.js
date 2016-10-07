@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import {NavigationBar} from 'components';
 // import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
-// import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+import { isLoaded as isAuthLoaded,
+	load as loadAuth,
+	// logout
+} from 'redux/modules/auth';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
@@ -12,18 +15,17 @@ import { asyncConnect } from 'redux-async-connect';
 	promise: ({store: {dispatch, getState}}) => {
 		const promises = [];
 
-		// if (!isInfoLoaded(getState())) {
-		// 	promises.push(dispatch(loadInfo()));
-		// }
-		// if (!isAuthLoaded(getState())) {
-		// 	promises.push(dispatch(loadAuth()));
-		// }
+		if (!isAuthLoaded(getState())) {
+			promises.push(dispatch(loadAuth()));
+		}
 
 		return Promise.all(promises);
 	}
 }])
 @connect(
-	state => ({user: state.auth.user}),
+	state => ({
+		user: state.auth.user
+	}),
 	{
 		// logout,
 		pushState: push
@@ -41,15 +43,14 @@ export default class App extends Component {
 		store: PropTypes.object.isRequired
 	};
 
-	// componentWillReceiveProps(nextProps) {
-	// 	if (!this.props.user && nextProps.user) {
-	// 		// login
-	// 		this.props.pushState('/loginSuccess');
-	// 	} else if (this.props.user && !nextProps.user) {
-	// 		// logout
-	// 		this.props.pushState('/');
-	// 	}
-	// }
+	componentDidMount() {
+		/* If App is loaded from server-rendering with token, save the
+		token to the localStorage as soon as the app bootstraps in the browser */
+		const { user } = this.props;
+		if (user && user.token) {
+			localStorage.setItem('token', user.token);
+		}
+	}
 
 	render() {
 		const styles = require('./App.scss');

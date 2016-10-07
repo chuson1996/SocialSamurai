@@ -38,9 +38,8 @@ export default (store) => {
 			<Route path="login" component={Login} />
 
 			{ /* Routes requiring login */ }
-			<Route onEnter={requireLogin}>
-				<Route path="challenges/:challengeId" component={Challenge} />
-			</Route>
+			<Route path="challenges/:challengeId" component={Challenge} onEnter={requireLogin} />
+
 			{ /* Catch all route */ }
 			<Route path="*" component={NotFound} status={404} />
 		</Route>
