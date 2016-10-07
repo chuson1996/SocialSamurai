@@ -1,14 +1,15 @@
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local'
+import { Strategy as LocalStrategy } from 'passport-local';
 import mongoose from 'mongoose';
 
-var User = mongoose.model('User');
+const User = mongoose.model('User');
 
-passport.use(new LocalStrategy({
-	usernameField: 'email'
-},
-	function(username, password, done) {
-		User.findOne({ email: username }, function(err, user) {
+passport.use(
+	new LocalStrategy({
+		usernameField: 'email'
+	},
+	(username, password, done) => {
+		User.findOne({ email: username }, (err, user) => {
 			if (err) {
 				return done(err);
 			}

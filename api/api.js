@@ -14,10 +14,23 @@ import * as challengeController from 'controllers/challenge';
 import * as authController from 'controllers/auth';
 import * as commentController from 'controllers/comment';
 import jwt from 'express-jwt';
+import sessionMongoose from 'session-mongoose';
+import mongoose from 'mongoose';
+import connect from 'connect';
+
 const auth = jwt({
 	secret: 'JWT_SECRET',
 	userProperty: 'payload'
 });
+
+/** MongoDB Setup */
+mongoose.connect(config.mongo.endpoint, {
+	server: {
+		socketOptions: { keepAlive: 1 }
+	}
+});
+const MongoSessionStore = sessionMongoose(connect);
+const sessionStore = new MongoSessionStore({url: config.mongo.endpoint});
 
 const app = express();
 
@@ -31,7 +44,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	cookie: { maxAge: 60000 },
-	// store: sessionStore
+	store: sessionStore
 }));
 app.disable('etag');
 app.use(bodyParser.json());
@@ -63,6 +76,7 @@ app.post('/challenges/:challengeId/comments/:commentId/comments', auth, commentC
 app.post('/register', authController.register);
 app.post('/login', authController.login);
 app.get('/session', auth, authController.session);
+app.get('/loadAuth', authController.loadAuth);
 
 const bufferSize = 100;
 const messageBuffer = new Array(bufferSize);

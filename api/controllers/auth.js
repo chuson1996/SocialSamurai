@@ -2,8 +2,8 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import {getUser} from './util';
 
-let User = mongoose.model('User');
-let Challenge = mongoose.model('Challenge');
+const User = mongoose.model('User');
+const Challenge = mongoose.model('Challenge');
 
 const sendJSONresponse = (res, status, content) => {
 	res.status(status);
@@ -54,6 +54,8 @@ export function login(req, res) {
 
 		if (user) {
 			const token = user.generateJwt();
+			// Save token to session
+			req.session.token = token;
 			sendJSONresponse(res, 200, {
 				token
 			});
@@ -65,7 +67,7 @@ export function login(req, res) {
 }
 
 export function session(req, res) {
-	getUser(req, res, (req, res, user) => {
+	getUser(req, res, (_req, _res, user) => {
 		Challenge
 			.find({})
 			.limit(user.level)
@@ -82,5 +84,19 @@ export function session(req, res) {
 				});
 				return;
 			});
-	})
+	});
+}
+
+export function loadAuth(req, res) {
+	if (req.session.token) {
+		return res
+			.status(200)
+			.json({
+				token: req.session.token
+			});
+	}
+
+	return res.status(401).json({
+		message: 'Not authenticate'
+	});
 }

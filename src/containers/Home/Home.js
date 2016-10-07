@@ -7,23 +7,11 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import {LinkContainer} from 'react-router-bootstrap';
-import {browserHistory} from 'react-router';
 
 export default class Home extends Component {
-
-	// constructor(props) {
-	// 	super(props);
-	// 	// if (!localStorage.getItem('token')) {
-	// 	// 	browserHistory.push('/login');
-	// 	// }
-	// 	console.log(localStorage);
-	// }
-
 	render() {
 		const styles = require('./Home.scss');
-		// require the logo image both from client and server
-		// const logoImage = require('./logo.png');
-		console.log(styles);
+
 		return (
 			<div className={styles.home}>
 				<Helmet title="Social Samurai"/>
