@@ -5,19 +5,22 @@ import {register as _register} from 'redux/modules/auth';
 import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 
+@reduxForm({
+	form: 'register'
+})
 @connect(
 	null, {
 		register: _register,
 	}
 )
-class RegisterForm extends Component {
+export default class RegisterForm extends Component {
 	static propTypes = {
 		handleSubmit: PropTypes.func,
 		pristine: PropTypes.bool,
 		submitting: PropTypes.bool,
 		fields: PropTypes.object,
 		register: PropTypes.func,
-		formName: PropTypes.string
+		form: PropTypes.string
 	};
 
 	handleSubmit = (values) => {
@@ -28,7 +31,13 @@ class RegisterForm extends Component {
 	};
 
 	render() {
-		const { handleSubmit, pristine, submitting, formName } = this.props;
+		const {
+			handleSubmit,
+			pristine,
+			submitting,
+			form: formName
+		} = this.props;
+
 		return (
 			<form onSubmit={handleSubmit(this.handleSubmit)}>
 				<div className="form-group">
@@ -53,14 +62,9 @@ class RegisterForm extends Component {
 					</div>
 				</div>
 				<button className="button" disabled={pristine || submitting}
-						type="submit">{formName}</button>
+					type="submit">{formName}</button>
 				<Link className="button m-l-10" to="/login">Login</Link>
 			</form>
 		);
 	}
 }
-
-// Decorate the form component
-export default reduxForm({
-	form: 'register'
-})(RegisterForm);

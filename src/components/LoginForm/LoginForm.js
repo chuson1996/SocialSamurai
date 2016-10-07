@@ -5,14 +5,19 @@ import {Link} from 'react-router';
 import {login as _login, logout as _logout} from 'redux/modules/auth';
 import {browserHistory} from 'react-router';
 
+@reduxForm({
+	form: 'login'
+})
 @connect(
-	state => ({loginError: state.auth.loginError}),
+	state => ({
+		loginError: state.auth.loginError
+	}),
 	{
 		login: _login,
 		logout: _logout
 	}
 )
-class LoginForm extends Component {
+export default class LoginForm extends Component {
 	static propTypes = {
 		handleSubmit: PropTypes.func,
 		pristine: PropTypes.bool,
@@ -20,7 +25,7 @@ class LoginForm extends Component {
 		fields: PropTypes.object,
 		login: PropTypes.func,
 		logout: PropTypes.func,
-		formName: PropTypes.string,
+		form: PropTypes.string,
 		loginError: PropTypes.object
 	};
 
@@ -32,8 +37,15 @@ class LoginForm extends Component {
 	};
 
 	render() {
-		const { handleSubmit, pristine, submitting, formName } = this.props;
-				const styles = require('./LoginForm.scss');
+		const {
+			handleSubmit,
+			pristine,
+			submitting,
+			form: formName,
+		} = this.props;
+
+		const styles = require('./LoginForm.scss');
+
 		return (
 			<form onSubmit={handleSubmit(this.handleSubmit)}>
 				<div className="form-group">
@@ -59,8 +71,3 @@ class LoginForm extends Component {
 		);
 	}
 }
-
-// Decorate the form component
-export default reduxForm({
-	form: 'login'
-})(LoginForm);
