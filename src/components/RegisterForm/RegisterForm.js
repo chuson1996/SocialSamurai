@@ -8,8 +8,7 @@ import {browserHistory} from 'react-router';
 @reduxForm({
 	form: 'register'
 })
-@connect(
-	null, {
+@connect(state => ({registerError: state.auth.registerError}), {
 		register: _register,
 	}
 )
@@ -20,7 +19,8 @@ export default class RegisterForm extends Component {
 		submitting: PropTypes.bool,
 		fields: PropTypes.object,
 		register: PropTypes.func,
-		form: PropTypes.string
+		form: PropTypes.string,
+		registerError: PropTypes.object
 	};
 
 	handleSubmit = (values) => {
@@ -35,9 +35,11 @@ export default class RegisterForm extends Component {
 			handleSubmit,
 			pristine,
 			submitting,
-			form: formName
+			form: formName,
+			registerError
 		} = this.props;
 
+		const styles = require('./RegisterForm.scss');
 		return (
 			<form onSubmit={handleSubmit(this.handleSubmit)}>
 				<div className="form-group">
@@ -61,6 +63,8 @@ export default class RegisterForm extends Component {
 							component="input" type="password" placeholder="Password" />
 					</div>
 				</div>
+				{registerError &&
+				<p className={styles['error-message']}>{registerError.message}</p>}
 				<button className="button" disabled={pristine || submitting}
 					type="submit">{formName}</button>
 				<Link className="button m-l-10" to="/login">Login</Link>

@@ -52,6 +52,6 @@ module.exports = Object.assign({
 		}
 	},
 	mongo: {
-		endpoint: 'mongodb://admin:admin@ds029456.mlab.com:29456/social-samurai'
+		endpoint: process.env.MONGO_URI || 'mongodb://admin:admin@ds029456.mlab.com:29456/social-samurai'
 	}
 }, environment);

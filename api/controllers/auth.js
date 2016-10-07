@@ -1,7 +1,9 @@
 import passport from 'passport';
 import mongoose from 'mongoose';
+import {getUser} from './util';
 
-const User = mongoose.model('User');
+let User = mongoose.model('User');
+let Challenge = mongoose.model('Challenge');
 
 const sendJSONresponse = (res, status, content) => {
 	res.status(status);
@@ -24,7 +26,10 @@ export function register(req, res) {
 
 	user.save((err) => {
 		if (err) {
-			sendJSONresponse(res, 404, err);
+			console.log(err);
+			sendJSONresponse(res, 404, {
+				message: `There is an existing account associated with ${user.email}`
+			});
 			return;
 		}
 		const token = user.generateJwt();
@@ -57,4 +62,25 @@ export function login(req, res) {
 
 		sendJSONresponse(res, 401, info);
 	})(req, res);
+}
+
+export function session(req, res) {
+	getUser(req, res, (req, res, user) => {
+		Challenge
+			.find({})
+			.limit(user.level)
+			.populate('comments._creator')
+			.populate('comments.comments._creator')
+			.exec((err, challenges) => {
+				if (err) {
+					sendJSONresponse(res, 400, err);
+					return;
+				}
+				sendJSONresponse(res, 200, {
+					user: user,
+					challenges: challenges
+				});
+				return;
+			});
+	})
 }

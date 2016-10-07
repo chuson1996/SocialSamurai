@@ -12,6 +12,12 @@ import {get as abcGet} from './actions/abc';
 import * as userController from 'controllers/user';
 import * as challengeController from 'controllers/challenge';
 import * as authController from 'controllers/auth';
+import * as commentController from 'controllers/comment';
+import jwt from 'express-jwt';
+const auth = jwt({
+	secret: 'JWT_SECRET',
+	userProperty: 'payload'
+});
 
 const app = express();
 
@@ -35,22 +41,28 @@ app.use(passport.initialize());
 app.get('/abc', abcGet);
 
 // user routes
-app.get('/users', userController.userRetrieveList);
-app.get('/users/:userId', userController.userRetrieveOne);
-app.post('/users', userController.userCreate);
-app.put('/users/:userId', userController.userModify);
-app.delete('/users/:userId', userController.userDestroy);
+app.get('/users', auth, userController.userRetrieveList);
+app.get('/users/:userId', auth, userController.userRetrieveOne);
+app.post('/users', auth, userController.userCreate);
+app.put('/users/:userId', auth, userController.userModify);
+app.delete('/users/:userId', auth, userController.userDestroy);
 
 // challenge routes
-app.get('/challenges', challengeController.challengeRetrieveList);
+app.get('/challenges', auth, challengeController.challengeRetrieveList);
 app.get('/challenges/:challengeId', challengeController.challengeRetrieveOne);
-app.post('/challenges', challengeController.challengeCreate);
-app.put('/challenges/:challengeId', challengeController.challengeModify);
-app.delete('/challenges/:challengeId', challengeController.challengeDestroy);
+app.post('/challenges', auth, challengeController.challengeCreate);
+app.put('/challenges/:challengeId', auth, challengeController.challengeModify);
+app.delete('/challenges/:challengeId', auth, challengeController.challengeDestroy);
+
+// comments routes
+app.post('/challenges/:challengeId/comments', auth, commentController.commentCreate);
+app.post('/challenges/:challengeId/comments/:commentId/comments', auth, commentController.comment2ndCreate);
+
 
 // authentication routes
 app.post('/register', authController.register);
 app.post('/login', authController.login);
+app.get('/session', auth, authController.session);
 
 const bufferSize = 100;
 const messageBuffer = new Array(bufferSize);
@@ -89,3 +101,14 @@ if (config.apiPort) {
 } else {
 	console.error('==>     ERROR: No PORT environment variable has been specified');
 }
+
+// error handlers
+// catch unauthorised errors
+app.use(function(err, req, res, next) {
+	if (err.name === 'UnauthorizedError') {
+		res.status(401);
+		res.json({
+			message: err.name + ": " + err.message
+		});
+	}
+});

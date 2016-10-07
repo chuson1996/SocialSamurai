@@ -1,30 +1,33 @@
 import mongoose from 'mongoose';
-var Challenge = mongoose.model('Challenge');
+import {getUser} from './util';
+let Challenge = mongoose.model('Challenge');
 
-var sendJSONresponse = (res, status, content) => {
+const sendJSONresponse = (res, status, content) => {
     res.status(status);
     res.json(content);
 };
 
 export function challengeRetrieveList(req, res) {
-    Challenge
-        .find({})
-        .populate('comments._creator')
-        .populate('comments.comments._creator')
-        .exec((err, challenges) => {
-            if (err) {
-                sendJSONresponse(res, 400, err);
+    getUser(req, res, (req, res, user) => {
+        Challenge
+            .find({})
+            .populate('comments._creator')
+            .populate('comments.comments._creator')
+            .exec((err, challenges) => {
+                if (err) {
+                    sendJSONresponse(res, 400, err);
+                    return;
+                }
+                sendJSONresponse(res, 200, challenges.slice(0, user.level));
                 return;
-            }
-            sendJSONresponse(res, 200, challenges);
-            return;
-        });
+            });
+    })
 };
 
 export function challengeRetrieveOne(req, res) {
     if (!req.params.challengeId) {
         sendJSONresponse(res, 404, {
-            "message": "No challengeId in the request"
+            message: "No challengeId in the request"
         });
         return;
     }
@@ -39,7 +42,7 @@ export function challengeRetrieveOne(req, res) {
             }
             if (!challenge) {
                 sendJSONresponse(res, 404, {
-                    "message": "Challenge not found"
+                    message: "Challenge not found"
                 });
                 return;
             }
@@ -66,7 +69,7 @@ export function challengeCreate(req, res) {
 export function challengeModify(req, res) {
     if (!req.params.challengeId) {
         sendJSONresponse(res, 404, {
-            "message": "No challengeId in the request"
+            message: "No challengeId in the request"
         });
         return;
     }
@@ -96,7 +99,7 @@ export function challengeModify(req, res) {
 export function challengeDestroy(req, res) {
     if (!req.params.challengeId) {
         sendJSONresponse(res, 404, {
-            "message": "No challengeId in the request"
+            message: "No challengeId in the request"
         });
         return;
     }

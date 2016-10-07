@@ -1,0 +1,128 @@
+import mongoose from 'mongoose';
+import {getUser} from './util';
+let Challenge = mongoose.model('Challenge');
+let User = mongoose.model('User');
+
+const sendJSONresponse = (res, status, content) => {
+    res.status(status);
+    res.json(content);
+};
+
+const addComment = (req, res, challenge, user) => {
+    if (!challenge) {
+        sendJSONresponse(res, 404, {
+            message: "Challenge not found"
+        });
+        return;
+    }
+    challenge.comments.push({
+        _creator: user._id,
+        body: req.body.body,
+        comment: []
+    });
+    challenge.save((err, challenge) => {
+        if (err) {
+            sendJSONresponse(res, 400, err);
+            return;
+        }
+        sendJSONresponse(res, 201, challenge.comments[challenge.comments.length - 1]);
+        return;
+    });
+};
+
+const add2ndComment = (req, res, challenge, user) => {
+    if (!challenge) {
+        sendJSONresponse(res, 404, {
+            message: "Challenge not found"
+        });
+        return;
+    }
+    if (!challenge.comments || challenge.comments.length == 0) {
+        sendJSONresponse(res, 404, {
+            message: "Comment not found"
+        });
+        return;
+    }
+    let comment = challenge.comments.id(req.params.commentId);
+    if (!comment) {
+        sendJSONresponse(res, 404, {
+            message: "Comment not found"
+        });
+        return;
+    }
+    comment.comments.push({
+        _creator: user._id,
+        body: req.body.body
+    });
+    challenge.save((err, challenge) => {
+        if (err) {
+            sendJSONresponse(res, 400, err);
+            return;
+        }
+        sendJSONresponse(res, 201, comment.comments[comment.comments.length - 1]);
+        return;
+    })
+
+};
+
+export function commentCreate(req, res) {
+    if (!req.body.body) {
+        sendJSONresponse(res, 404, {
+            message: "Empty comment"
+        });
+        return;
+    }
+    getUser(req, res, (req, res, user) => {
+        if (!req.params.challengeId) {
+            sendJSONresponse(res, 404, {
+                message: "No challengeId in the request"
+            });
+            return;
+        }
+        Challenge
+            .findById(req.params.challengeId)
+            .select('comments')
+            .exec((err, challenge) => {
+                if (err) {
+                    sendJSONresponse(res, 400, err);
+                    return;
+                }
+                addComment(req, res, challenge, user);
+                return;
+            })
+    });
+}
+
+export function comment2ndCreate(req, res) {
+    if (!req.body.body) {
+        sendJSONresponse(res, 404, {
+            message: "Empty comment"
+        });
+        return;
+    }
+    getUser(req, res, (req, res, user) => {
+        if (!req.params.challengeId) {
+            sendJSONresponse(res, 404, {
+                message: "No challengeId in the request"
+            });
+            return;
+        }
+        if (!req.params.commentId) {
+            sendJSONresponse(res, 404, {
+                message: "No commentId in the request"
+            });
+            return;
+        }
+        Challenge
+            .findById(req.params.challengeId)
+            .select('comments')
+            .exec((err, challenge) => {
+                if (err) {
+                    sendJSONresponse(res, 400, err);
+                    return;
+                }
+                add2ndComment(req, res, challenge, user);
+                return;
+            })
+    })
+}

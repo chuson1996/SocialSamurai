@@ -42,4 +42,16 @@ db.challenges.insertOne({
             ]
         }
     ]
-})
+});
+db.challenges.insertOne({
+    title: "Challenge 2",
+    description: "Smile honey",
+    videoUrl: "Test url",
+    comments: []
+});
+db.challenges.insertOne({
+    title: "Challenge 3",
+    description: "Chicken noodle",
+    videoUrl: "Test url",
+    comments: []
+});
