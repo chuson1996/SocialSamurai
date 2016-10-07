@@ -12,7 +12,11 @@ import {
 
 export default () => {
 	const requireLogin = (nextState, replace, cb) => {
-		const token = window.localStorage.getItem('token');
+		if (typeof localStorage === 'undefined' || localStorage === null) {
+			const LocalStorage = require('node-localstorage').LocalStorage;
+			localStorage = new LocalStorage('./scratch');
+		}
+		const token = localStorage.getItem('token');
 		if (!token) {
 			// oops, not logged in, so can't be here!
 			replace('/login');
