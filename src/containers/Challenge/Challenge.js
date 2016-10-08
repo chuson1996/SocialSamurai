@@ -1,13 +1,32 @@
-import React, { Component, /* PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import Panel from 'react-bootstrap/lib/Panel';
 import Youtube from 'react-youtube';
 import { Comment } from 'components';
+import { connect } from 'react-redux';
+import { asyncConnect } from 'redux-async-connect';
+import {
+	load as loadSession,
+} from 'redux/modules/session';
 
+@asyncConnect([{
+	// deferred: true,
+	promise: ({store: {dispatch}}) => {
+		return dispatch(loadSession());
+	}
+}])
+@connect(
+	(state) => ({
+		session: state.session
+	})
+)
 class Challenge extends Component {
-	static propTypes = {};
+	static propTypes = {
+		session: PropTypes.object,
+		loadSession: PropTypes.func,
+	};
 
 	render() {
 		return (

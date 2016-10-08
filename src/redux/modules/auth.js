@@ -1,14 +1,14 @@
 // import config from '../../config';
-const LOAD = 'redux-example/auth/LOAD';
-const LOAD_SUCCESS = 'redux-example/auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/auth/LOAD_FAIL';
-const LOGIN = 'redux-example/auth/LOGIN';
-const LOGIN_SUCCESS = 'redux-example/auth/LOGIN_SUCCESS';
-const LOGIN_FAIL = 'redux-example/auth/LOGIN_FAIL';
-const LOGOUT = 'redux-example/auth/LOGOUT';
-const REGISTER = 'redux-example/auth/REGISTER';
-const REGISTER_SUCCESS = 'redux-example/auth/REGISTER_SUCCESS';
-const REGISTER_FAIL = 'redux-example/auth/REGISTER_FAIL';
+const LOAD = 'social-samurai/auth/LOAD';
+const LOAD_SUCCESS = 'social-samurai/auth/LOAD_SUCCESS';
+const LOAD_FAIL = 'social-samurai/auth/LOAD_FAIL';
+const LOGIN = 'social-samurai/auth/LOGIN';
+const LOGIN_SUCCESS = 'social-samurai/auth/LOGIN_SUCCESS';
+const LOGIN_FAIL = 'social-samurai/auth/LOGIN_FAIL';
+const LOGOUT = 'social-samurai/auth/LOGOUT';
+const REGISTER = 'social-samurai/auth/REGISTER';
+const REGISTER_SUCCESS = 'social-samurai/auth/REGISTER_SUCCESS';
+const REGISTER_FAIL = 'social-samurai/auth/REGISTER_FAIL';
 
 const initialState = {
 	loaded: false
@@ -26,7 +26,7 @@ export default function reducer(state = initialState, action = {}) {
 				...state,
 				loading: false,
 				loaded: true,
-				user: action.result
+				data: action.result,
 			};
 		case LOAD_FAIL:
 			return {
@@ -44,20 +44,20 @@ export default function reducer(state = initialState, action = {}) {
 			return {
 				...state,
 				loggingIn: false,
-				user: action.result
+				loaded: true,
+				data: action.result
 			};
 		case LOGIN_FAIL:
 			return {
 				...state,
 				loggingIn: false,
-				user: null,
+				data: null,
 				loginError: action.error
 			};
 		case LOGOUT:
-			localStorage.removeItem('token');
 			return {
 				...state,
-				user: null
+				data: null
 			};
 		case REGISTER:
 			return {
@@ -67,7 +67,8 @@ export default function reducer(state = initialState, action = {}) {
 		case REGISTER_SUCCESS:
 			return {
 				...state,
-				user: action.result
+				data: action.result,
+				loaded: true
 			};
 		case REGISTER_FAIL:
 			return {

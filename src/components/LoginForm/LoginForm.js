@@ -31,7 +31,6 @@ export default class LoginForm extends Component {
 
 	handleSubmit = (values) => {
 		this.props.login(values).then(({token}) => {
-			localStorage.setItem('token', token);
 			browserHistory.push('/');
 		});
 	};

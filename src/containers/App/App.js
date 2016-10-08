@@ -43,15 +43,6 @@ export default class App extends Component {
 		store: PropTypes.object.isRequired
 	};
 
-	componentDidMount() {
-		/* If App is loaded from server-rendering with token, save the
-		token to the localStorage as soon as the app bootstraps in the browser */
-		const { user } = this.props;
-		if (user && user.token) {
-			localStorage.setItem('token', user.token);
-		}
-	}
-
 	render() {
 		const styles = require('./App.scss');
 

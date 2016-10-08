@@ -17,13 +17,21 @@ import jwt from 'express-jwt';
 import sessionMongoose from 'session-mongoose';
 import mongoose from 'mongoose';
 import connect from 'connect';
+import cookie from 'react-cookie';
 
-const auth = jwt({
+const jwtMidleware = jwt({
 	secret: 'JWT_SECRET',
-	userProperty: 'payload'
+	userProperty: 'payload',
+	getToken: (/* req */) => {
+		const token = cookie.load('token');
+		// console.log('Token ', token);
+		if (token) return token;
+		return null;
+	}
 });
 
 /** MongoDB Setup */
+mongoose.Promise = require('bluebird');
 mongoose.connect(config.mongo.endpoint, {
 	server: {
 		socketOptions: { keepAlive: 1 }
@@ -54,28 +62,28 @@ app.use(passport.initialize());
 app.get('/abc', abcGet);
 
 // user routes
-app.get('/users', auth, userController.userRetrieveList);
-app.get('/users/:userId', auth, userController.userRetrieveOne);
-app.post('/users', auth, userController.userCreate);
-app.put('/users/:userId', auth, userController.userModify);
-app.delete('/users/:userId', auth, userController.userDestroy);
+app.get('/users', jwtMidleware, userController.userRetrieveList);
+app.get('/users/:userId', jwtMidleware, userController.userRetrieveOne);
+app.post('/users', jwtMidleware, userController.userCreate);
+app.put('/users/:userId', jwtMidleware, userController.userModify);
+app.delete('/users/:userId', jwtMidleware, userController.userDestroy);
 
 // challenge routes
-app.get('/challenges', auth, challengeController.challengeRetrieveList);
+app.get('/challenges', jwtMidleware, challengeController.challengeRetrieveList);
 app.get('/challenges/:challengeId', challengeController.challengeRetrieveOne);
-app.post('/challenges', auth, challengeController.challengeCreate);
-app.put('/challenges/:challengeId', auth, challengeController.challengeModify);
-app.delete('/challenges/:challengeId', auth, challengeController.challengeDestroy);
+app.post('/challenges', jwtMidleware, challengeController.challengeCreate);
+app.put('/challenges/:challengeId', jwtMidleware, challengeController.challengeModify);
+app.delete('/challenges/:challengeId', jwtMidleware, challengeController.challengeDestroy);
 
 // comments routes
-app.post('/challenges/:challengeId/comments', auth, commentController.commentCreate);
-app.post('/challenges/:challengeId/comments/:commentId/comments', auth, commentController.comment2ndCreate);
+app.post('/challenges/:challengeId/comments', jwtMidleware, commentController.commentCreate);
+app.post('/challenges/:challengeId/comments/:commentId', jwtMidleware, commentController.comment2ndCreate);
 
 
 // authentication routes
 app.post('/register', authController.register);
 app.post('/login', authController.login);
-app.get('/session', auth, authController.session);
+app.get('/session', jwtMidleware, authController.session);
 app.get('/loadAuth', authController.loadAuth);
 
 const bufferSize = 100;
@@ -118,11 +126,11 @@ if (config.apiPort) {
 
 // error handlers
 // catch unauthorised errors
-app.use(function(err, req, res, next) {
+app.use((err, req, res) => {
 	if (err.name === 'UnauthorizedError') {
 		res.status(401);
 		res.json({
-			message: err.name + ": " + err.message
+			message: `${err.name}: ${err.message}`
 		});
 	}
 });
