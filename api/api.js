@@ -22,7 +22,11 @@ import cookie from 'react-cookie';
 const jwtMidleware = jwt({
 	secret: 'JWT_SECRET',
 	userProperty: 'payload',
-	getToken: (/* req */) => {
+	getToken: (req) => {
+		if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+			return req.headers.authorization.split(' ')[1];
+		}
+
 		const token = cookie.load('token');
 		// console.log('Token ', token);
 		if (token) return token;
