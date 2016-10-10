@@ -55,7 +55,7 @@ export function login(req, res) {
 
 		if (user) {
 			const token = user.generateJwt();
-			res.cookie('token', token, { maxAge: 900000000, httpOnly: true });
+			res.cookie('token', token, { maxAge: 900000000 });
 
 			res.status(200).json({ token });
 			return;
