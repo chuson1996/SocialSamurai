@@ -8,15 +8,16 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import config from '../../config';
 import {browserHistory} from 'react-router';
 import {logout as _logout} from 'redux/modules/auth';
+import get from 'lodash/get';
 
 @connect(
-    state => ({user: state.auth.user
+    state => ({token: get(state, 'auth.data.token')
 }), {
     logout: _logout
 })
 class NavigationBar extends React.Component {
     static propTypes = {
-        user: PropTypes.object,
+        token: PropTypes.string,
         logout: PropTypes.func
     };
 
@@ -26,7 +27,6 @@ class NavigationBar extends React.Component {
     };
 
     render() {
-        // const styles = require('./NavigationBar.scss');
         return (
             <Navbar fixedTop>
                 <Navbar.Header>
@@ -39,13 +39,8 @@ class NavigationBar extends React.Component {
                 </Navbar.Header>
 
                 <Navbar.Collapse eventKey={0}>
-                    <Nav navbar>
-                        <LinkContainer to="/roadmap">
-                            <NavItem eventKey={1}>Roadmap</NavItem>
-                        </LinkContainer>
-                    </Nav>
 
-                    {this.props.user && <Nav pullRight>
+                    {this.props.token && <Nav pullRight>
                         <NavItem eventKey={1} onClick={this.handleLogout}>Logout</NavItem>
                     </Nav>}
                 </Navbar.Collapse>
