@@ -97,12 +97,12 @@ export function challengeModify(req, res) {
 };
 
 export function challengeDestroy(req, res) {
-    if (!req.params.challengeId) {
-        sendJSONresponse(res, 404, {
-            message: "No challengeId in the request"
-        });
-        return;
-    }
+    // if (!req.params.challengeId) {
+    //     sendJSONresponse(res, 404, {
+    //         message: 'No challengeId in the request'
+    //     });
+    //     return;
+    // }
     Challenge
         .findByIdAndRemove(req.params.challengeId)
         .exec((err, challenge) => {

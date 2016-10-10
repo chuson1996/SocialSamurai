@@ -14,7 +14,6 @@ import * as challengeController from 'controllers/challenge';
 import * as authController from 'controllers/auth';
 import * as commentController from 'controllers/comment';
 import jwt from 'express-jwt';
-import sessionMongoose from 'session-mongoose';
 import mongoose from 'mongoose';
 import connect from 'connect';
 import cookieParser from 'cookie-parser';
@@ -42,8 +41,6 @@ mongoose.connect(config.mongo.endpoint, {
 		socketOptions: { keepAlive: 1 }
 	}
 });
-const MongoSessionStore = sessionMongoose(connect);
-const sessionStore = new MongoSessionStore({url: config.mongo.endpoint});
 
 const app = express();
 app.use(cookieParser());
@@ -56,15 +53,12 @@ app.use(session({
 	secret: 'socialsamurai',
 	resave: false,
 	saveUninitialized: false,
-	cookie: { maxAge: 60000 },
-	store: sessionStore
+	cookie: { maxAge: 60000 }
 }));
 app.disable('etag');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
-
-app.get('/abc', abcGet);
 
 // user routes
 app.get('/users', jwtMidleware, userController.userRetrieveList);
