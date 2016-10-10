@@ -11,8 +11,8 @@ export function challengeRetrieveList(req, res) {
     getUser(req, res, (req, res, user) => {
         Challenge
             .find({})
-            .populate('comments._creator')
-            .populate('comments.comments._creator')
+            .populate('comments._creator', '-hash -salt')
+            .populate('comments.comments._creator', '-hash -salt')
             .exec((err, challenges) => {
                 if (err) {
                     sendJSONresponse(res, 400, err);

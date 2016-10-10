@@ -66,6 +66,7 @@ app.get('/users/:userId', jwtMidleware, userController.userRetrieveOne);
 app.post('/users', jwtMidleware, userController.userCreate);
 app.put('/users/:userId', jwtMidleware, userController.userModify);
 app.delete('/users/:userId', jwtMidleware, userController.userDestroy);
+app.post('/users/:userId/levelup', jwtMidleware, userController.userLevelUp);
 
 // challenge routes
 app.get('/challenges', jwtMidleware, challengeController.challengeRetrieveList);

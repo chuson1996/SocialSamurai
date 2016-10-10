@@ -34,7 +34,7 @@ export function register(req, res) {
 		}
 		const token = user.generateJwt();
 		// cookie.save('token', token, { path: '/' }); // Deprecated
-		res.cookie('token', token, { maxAge: 900000000, httpOnly: true });
+		res.cookie('token', token, { maxAge: 900000000});
 
 		res.status(200).json({ token });
 	});
