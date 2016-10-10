@@ -1,7 +1,6 @@
 import passport from 'passport';
 import mongoose from 'mongoose';
 import {getUser} from './util';
-// import cookie from 'react-cookie';
 
 const User = mongoose.model('User');
 const Challenge = mongoose.model('Challenge');
@@ -35,7 +34,7 @@ export function register(req, res) {
 		}
 		const token = user.generateJwt();
 		// cookie.save('token', token, { path: '/' }); // Deprecated
-		req.session.token = token; // Save token to session
+		res.cookie('token', token, { maxAge: 900000000, httpOnly: true });
 
 		res.status(200).json({ token });
 	});
@@ -56,8 +55,7 @@ export function login(req, res) {
 
 		if (user) {
 			const token = user.generateJwt();
-			// cookie.save('token', token, { path: '/' }); // Deprecated
-			req.session.token = token; // Save token to session
+			res.cookie('token', token, { maxAge: 900000000, httpOnly: true });
 
 			res.status(200).json({ token });
 			return;
@@ -86,8 +84,7 @@ export function session(req, res) {
 }
 
 export function loadAuth(req, res) {
-	// const token = cookie.load('token');
-	const token = req.session.token;
+	const token = req.cookies.token;
 	if (token) {
 		return res
 			.status(200)

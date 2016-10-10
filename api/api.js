@@ -17,7 +17,7 @@ import jwt from 'express-jwt';
 import sessionMongoose from 'session-mongoose';
 import mongoose from 'mongoose';
 import connect from 'connect';
-// import cookie from 'react-cookie';
+import cookieParser from 'cookie-parser';
 
 const jwtMidleware = jwt({
 	secret: 'JWT_SECRET',
@@ -27,7 +27,7 @@ const jwtMidleware = jwt({
 			return req.headers.authorization.split(' ')[1];
 		}
 
-		const token = req.session.token;
+		const token = req.cookies.token;
 		// const token = cookie.load('token');
 		// console.log('Token ', token);
 		if (token) return token;
@@ -46,7 +46,7 @@ const MongoSessionStore = sessionMongoose(connect);
 const sessionStore = new MongoSessionStore({url: config.mongo.endpoint});
 
 const app = express();
-
+app.use(cookieParser());
 const server = new http.Server(app);
 
 const io = new SocketIo(server);
