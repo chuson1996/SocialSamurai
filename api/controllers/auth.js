@@ -34,7 +34,7 @@ export function register(req, res) {
 		}
 		const token = user.generateJwt();
 		// cookie.save('token', token, { path: '/' }); // Deprecated
-		res.cookie('token', token, { maxAge: 900000000, httpOnly: true });
+		res.cookie('token', token, { maxAge: 900000000});
 
 		res.status(200).json({ token });
 	});
@@ -55,7 +55,7 @@ export function login(req, res) {
 
 		if (user) {
 			const token = user.generateJwt();
-			res.cookie('token', token, { maxAge: 900000000, httpOnly: true });
+			res.cookie('token', token, { maxAge: 900000000 });
 
 			res.status(200).json({ token });
 			return;
@@ -69,13 +69,12 @@ export function session(req, res) {
 	getUser(req, res, (_req, _res, user) => {
 		Challenge
 			.find({})
-			.limit(user.level)
 			.populate('comments._creator')
 			.populate('comments.comments._creator')
 			.exec().then((challenges) => {
 				res.status(200).json({
 					user: user,
-					challenges: challenges
+					challenges: challenges.slice(0, user.level)
 				});
 			}).catch((err) => {
 				res.status(400).json(err);

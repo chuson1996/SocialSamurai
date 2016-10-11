@@ -11,8 +11,8 @@ export function challengeRetrieveList(req, res) {
     getUser(req, res, (req, res, user) => {
         Challenge
             .find({})
-            .populate('comments._creator')
-            .populate('comments.comments._creator')
+            .populate('comments._creator', '-hash -salt')
+            .populate('comments.comments._creator', '-hash -salt')
             .exec((err, challenges) => {
                 if (err) {
                     sendJSONresponse(res, 400, err);
@@ -97,12 +97,12 @@ export function challengeModify(req, res) {
 };
 
 export function challengeDestroy(req, res) {
-    if (!req.params.challengeId) {
-        sendJSONresponse(res, 404, {
-            message: "No challengeId in the request"
-        });
-        return;
-    }
+    // if (!req.params.challengeId) {
+    //     sendJSONresponse(res, 404, {
+    //         message: 'No challengeId in the request'
+    //     });
+    //     return;
+    // }
     Challenge
         .findByIdAndRemove(req.params.challengeId)
         .exec((err, challenge) => {

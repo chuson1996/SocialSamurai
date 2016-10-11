@@ -22,7 +22,7 @@ module.exports = Object.assign({
 		title: 'SocialSamurai',
 		description: 'All the modern best practices in one example.',
 		head: {
-			titleTemplate: 'React Redux Example: %s',
+			titleTemplate: 'Social Samurai',
 			meta: [
 				{name: 'description', content: 'All the modern best practices in one example.'},
 				{charset: 'utf-8'},

@@ -60,7 +60,7 @@ export function userModify(req, res) {
         });
     }
     User
-        .findById(req.params.challengeId)
+        .findById(req.params.userId)
         .exec((err, user) => {
             if (req.body.name) {
                 user.name = req.body.name;
@@ -76,10 +76,9 @@ export function userModify(req, res) {
                     sendJSONresponse(res, 404, err);
                     return;
                 }
-                sendJSONresponse(res, 200, {
-                    user: user,
-                    token: user.generateJwt
-                });
+                const token = user.generateJwt();
+                res.cookie('token', token, { maxAge: 900000000 });
+                sendJSONresponse(res, 200, token);
                 return;
             });
         });
@@ -103,3 +102,27 @@ export function userDestroy(req, res) {
             return;
         })
 }
+export function userLevelUp(req, res) {
+    if (!req.body.userId) {
+        sendJSONresponse(res, 404, {
+            message: "No userId in the request"
+        });
+        return;
+    }
+    User
+        .findById(req.body.userId)
+        .exec((err, user) => {
+            user.level = user.level + 1;
+            user.save((err, user) => {
+                if (err) {
+                    sendJSONresponse(res, 404, err);
+                    return;
+                }
+                const token = user.generateJwt();
+                res.cookie('token', token, { maxAge: 900000000 });
+                sendJSONresponse(res, 200, token);
+                return;
+            })
+        });
+}
+
