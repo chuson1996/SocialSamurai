@@ -21,4 +21,7 @@
 .completed {
 	background-color: #5cb85c;
 	color: white !important;
+  &:hover {
+      background-color: #449d44;
+  }
 }

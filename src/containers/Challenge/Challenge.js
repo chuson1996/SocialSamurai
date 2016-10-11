@@ -72,7 +72,6 @@ class Challenge extends Component {
 		const styles = require('./Challenge.scss');
 		const {challenge} = this.props;
 		const videoUrl = challenge && challenge.videoUrl;
-		console.log(this.state.completed);
 		return (
 			<Row>
 				<Col xs={12} sm={8}>

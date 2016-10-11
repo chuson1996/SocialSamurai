@@ -8,6 +8,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {connect} from 'react-redux';
 import { asyncConnect } from 'redux-async-connect';
 import { getChallenges } from 'redux/modules/challenge';
+import get from 'lodash/get';
 
 @asyncConnect([{
 	promise: ({store: {dispatch}}) => {
@@ -16,7 +17,7 @@ import { getChallenges } from 'redux/modules/challenge';
 }])
 @connect((state) => ({
 	challenges: state.challenge.challenges,
-	level: state.session.data.user.level
+	level: get(state, 'session.data.user.level')
 }))
 export default class Home extends Component {
 	static propTypes = {
