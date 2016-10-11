@@ -65,7 +65,7 @@ export default function reducer(state = initialState, action = {}) {
 				saving: false,
 				data: update(state.data, {
 					comments: {
-						$push: action.result
+						$push: [action.result]
 					}
 				})
 			};

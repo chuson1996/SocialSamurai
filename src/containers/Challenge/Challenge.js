@@ -43,6 +43,8 @@ class Challenge extends Component {
 		saveComment({
 			challengeId,
 			body
+		}).then(() => {
+			this.mainCommentElem.value = '';
 		});
 	}
 
