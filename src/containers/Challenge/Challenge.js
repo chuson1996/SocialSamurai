@@ -6,15 +6,25 @@ import Panel from 'react-bootstrap/lib/Panel';
 import Youtube from 'react-youtube';
 import { Comment } from 'components';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
-import find from 'lodash/find';
+// import get from 'lodash/get';
+// import find from 'lodash/find';
 import Image from 'react-bootstrap/lib/Image';
-import { saveComment as _saveComment } from 'redux/modules/comment';
+import { saveComment as _saveComment } from 'redux/modules/challenge';
 import {levelUp as _levelUp} from 'redux/modules/challenge';
+import { asyncConnect } from 'redux-async-connect';
+import { load as loadChallenge } from 'redux/modules/challenge';
+import last from 'lodash/last';
 
+@asyncConnect([{
+	promise: ({store: {dispatch, getState}}) => {
+		const pathname = getState().routing.locationBeforeTransitions.pathname;
+		const challengeLevel = last(pathname.split('/'));
+		return Promise.all([dispatch(loadChallenge(challengeLevel))]);
+	}
+}])
 @connect(
 	(state) => ({
-		session: state.session.data
+		challenge: state.challenge.data
 	}),
 	{
 		saveComment: _saveComment,
@@ -23,7 +33,7 @@ import {levelUp as _levelUp} from 'redux/modules/challenge';
 )
 class Challenge extends Component {
 	static propTypes = {
-		session: PropTypes.object,
+		challenge: PropTypes.object,
 		params: PropTypes.object.isRequired,
 		saveComment: PropTypes.func.isRequired
 	};
@@ -33,6 +43,8 @@ class Challenge extends Component {
 		saveComment({
 			challengeId,
 			body
+		}).then(() => {
+			this.mainCommentElem.value = '';
 		});
 	}
 
@@ -42,7 +54,7 @@ class Challenge extends Component {
 
 	render() {
 		const styles = require('./Challenge.scss');
-		const challenge = find(get(this.props.session, 'challenges'), { _id: this.props.params.challengeId });
+		const {challenge} = this.props;
 		const videoUrl = challenge && challenge.videoUrl;
 		return (
 			<Row>
