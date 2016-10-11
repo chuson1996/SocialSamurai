@@ -73,14 +73,4 @@
 		&.small {
 			font-size: 0.5em;
 		}
-
-		&.disabled,
-		&:disabled {
-			@include vendor('pointer-events', 'none');
-			color: _palette(border) !important;
-
-			&:before {
-				color: _palette(border) !important;
-			}
-		}
 	}

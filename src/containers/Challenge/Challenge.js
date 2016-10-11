@@ -14,6 +14,7 @@ import {levelUp as _levelUp} from 'redux/modules/challenge';
 import { asyncConnect } from 'redux-async-connect';
 import { load as loadChallenge } from 'redux/modules/challenge';
 import last from 'lodash/last';
+import classNames from 'classnames';
 
 @asyncConnect([{
 	promise: ({store: {dispatch, getState}}) => {
@@ -24,7 +25,9 @@ import last from 'lodash/last';
 }])
 @connect(
 	(state) => ({
-		challenge: state.challenge.data
+		challenge: state.challenge.data,
+		userId: state.session.data.user._id,
+		userLevel: state.session.data.user.level
 	}),
 	{
 		saveComment: _saveComment,
@@ -35,8 +38,18 @@ class Challenge extends Component {
 	static propTypes = {
 		challenge: PropTypes.object,
 		params: PropTypes.object.isRequired,
-		saveComment: PropTypes.func.isRequired
+		saveComment: PropTypes.func.isRequired,
+		userId: PropTypes.string.isRequired,
+		userLevel: PropTypes.number.isRequired,
+		levelUp: PropTypes.func.isRequired,
 	};
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			completed: this.props.params.challengeId < this.props.userLevel
+		};
+	}
 
 	saveComment(body) {
 		const { saveComment, params: { challengeId } } = this.props;
@@ -49,13 +62,17 @@ class Challenge extends Component {
 	}
 
 	levelUp = () => {
-		console.log(this.props.session.user._id);
+		this.setState({
+			completed: true
+		});
+		this.props.levelUp(this.props.userId);
 	};
 
 	render() {
 		const styles = require('./Challenge.scss');
 		const {challenge} = this.props;
 		const videoUrl = challenge && challenge.videoUrl;
+		console.log(this.state.completed);
 		return (
 			<Row>
 				<Col xs={12} sm={8}>
@@ -73,7 +90,10 @@ class Challenge extends Component {
 					</Panel>
 				</Col>
 				<Col xs={12} sm={4}>
-					<a onClick={this.levelUp} className="button">Completed</a>
+					{this.state.completed ? <button
+						className={classNames('button', styles.completed)} disabled>
+						Completed</button> :
+						<a onClick={this.levelUp} className="button" disabled>Complete</a>}
 					<hr/>
 					<Panel header="Comments">
 						<table className={styles.commentTable}>
