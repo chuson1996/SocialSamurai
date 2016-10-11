@@ -8,14 +8,12 @@ import passport from 'passport';
 import 'models/db';
 import 'config';
 
-import {get as abcGet} from './actions/abc';
 import * as userController from 'controllers/user';
 import * as challengeController from 'controllers/challenge';
 import * as authController from 'controllers/auth';
 import * as commentController from 'controllers/comment';
 import jwt from 'express-jwt';
 import mongoose from 'mongoose';
-import connect from 'connect';
 import cookieParser from 'cookie-parser';
 
 const jwtMidleware = jwt({
@@ -27,8 +25,6 @@ const jwtMidleware = jwt({
 		}
 
 		const token = req.cookies.token;
-		// const token = cookie.load('token');
-		// console.log('Token ', token);
 		if (token) return token;
 		return null;
 	}

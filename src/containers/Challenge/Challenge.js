@@ -10,6 +10,7 @@ import { asyncConnect } from 'redux-async-connect';
 import {
 	load as loadSession,
 } from 'redux/modules/session';
+import {levelUp as _levelUp} from 'redux/modules/challenge';
 
 @asyncConnect([{
 	// deferred: true,
@@ -20,12 +21,18 @@ import {
 @connect(
 	(state) => ({
 		session: state.session
-	})
+	}), {
+		levelUp: _levelUp
+	}
 )
 class Challenge extends Component {
 	static propTypes = {
 		session: PropTypes.object,
 		loadSession: PropTypes.func,
+	};
+
+	levelUp = () => {
+		console.log(this.props.session.data.user._id);
 	};
 
 	render() {
@@ -45,7 +52,7 @@ class Challenge extends Component {
 					</Panel>
 				</Col>
 				<Col xs={12} sm={4}>
-					<a className="button">Completed</a>
+					<a onClick={this.levelUp} className="button">Completed</a>
 					<hr/>
 					<Panel header="Comments">
 						<Comment />

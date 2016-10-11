@@ -2,17 +2,33 @@
   text-align: center;
 }
 
+.thumbnail-video {
+  position: relative;
+}
+
 .locked-video {
   opacity: 0.1;
 }
 
 .lock-icon {
   position: absolute;
-  left: 0;
-  right: 0;
+  display: block;
+  width: 100%;
   text-align: center;
   top: 50%;
   transform: translateY(-50%);
   font-size: 5em;
   color: black;
+}
+
+@media screen and (max-width: 299px) {
+  .lock-icon  {
+    font-size: 1.2em;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 799px) {
+  .lock-icon  {
+    font-size: 3em;
+  }
 }
