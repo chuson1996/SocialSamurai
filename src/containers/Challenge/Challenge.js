@@ -10,20 +10,20 @@ import get from 'lodash/get';
 import find from 'lodash/find';
 import Image from 'react-bootstrap/lib/Image';
 import { saveComment as _saveComment } from 'redux/modules/comment';
-// import Button from 'react-bootstrap/lib/Button';
+import {levelUp as _levelUp} from 'redux/modules/challenge';
 
 @connect(
 	(state) => ({
 		session: state.session.data
 	}),
 	{
-		saveComment: _saveComment
+		saveComment: _saveComment,
+		levelUp: _levelUp
 	}
 )
 class Challenge extends Component {
 	static propTypes = {
 		session: PropTypes.object,
-		loadSession: PropTypes.func,
 		params: PropTypes.object.isRequired,
 		saveComment: PropTypes.func.isRequired
 	};
@@ -35,6 +35,10 @@ class Challenge extends Component {
 			body
 		});
 	}
+
+	levelUp = () => {
+		console.log(this.props.session.data.user._id);
+	};
 
 	render() {
 		const styles = require('./Challenge.scss');
@@ -57,7 +61,7 @@ class Challenge extends Component {
 					</Panel>
 				</Col>
 				<Col xs={12} sm={4}>
-					<a className="button">Completed</a>
+					<a onClick={this.levelUp} className="button">Completed</a>
 					<hr/>
 					<Panel header="Comments">
 						<table className={styles.commentTable}>

@@ -1,5 +1,4 @@
 // import config from '../../config';
-import cookie from 'react-cookie';
 const LOAD = 'social-samurai/auth/LOAD';
 const LOAD_SUCCESS = 'social-samurai/auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'social-samurai/auth/LOAD_FAIL';
@@ -58,7 +57,8 @@ export default function reducer(state = initialState, action = {}) {
 		case LOGOUT:
 			return {
 				...state,
-				data: null
+				data: null,
+				loaded: false
 			};
 		case REGISTER:
 			return {
@@ -112,10 +112,7 @@ export function register({ email, password, name }) {
 }
 
 export function logout() {
-	cookie.remove('token', {path: '/'});
-	console.log(cookie.select(/^token/i));
-	console.log(document.cookie);
-	document.cookie = 'token=;path=/;domain=localhost;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+	document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
 	return {
 		type: LOGOUT
 	};
