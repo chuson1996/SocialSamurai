@@ -21,7 +21,7 @@ db.createCollection('challenges');
 db.challenges.insertOne({
     title: "Challenge 1",
     description: "Dance baby",
-    videoUrl: "Test url",
+    videoUrl: "v7UIz_ANLb0",
     comments: [
         {
             _creator: ObjectId('000011112222333344445555'),
