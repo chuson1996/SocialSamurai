@@ -63,17 +63,7 @@ export function login(req, res) {
 	})(req, res);
 }
 
-export function session(err, req, res, next) {
-	if (err && err.name === 'UnauthorizedError') {
-		sendJSONresponse(res, 401, {
-			message: `${err.name}: ${err.message}`
-		});
-		return;
-	}
-	if (err) {
-		sendJSONresponse(res, 400, err);
-		return;
-	}
+export function session(req, res) {
 	getUser(req, res, (_req, _res, user) => {
 		Challenge
 			.find({})
