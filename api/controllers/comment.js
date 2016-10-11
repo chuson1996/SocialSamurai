@@ -72,14 +72,14 @@ export function commentCreate(req, res) {
 		return;
 	}
 	getUser(req, res, (_req, _res, user) => {
-		if (!req.params.challengeId) {
+		if (!req.params.level) {
 			sendJSONresponse(res, 404, {
-				message: 'No challengeId in the request'
+				message: 'No level in the request'
 			});
 			return;
 		}
 		Challenge
-			.findById(_req.params.challengeId)
+			.findOne({level: _req.params.level})
 			.select('comments')
 			.exec((err, challenge) => {
 				if (err) {

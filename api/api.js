@@ -72,8 +72,8 @@ app.put('/challenges/:challengeId', jwtMidleware, challengeController.challengeM
 app.delete('/challenges/:challengeId', jwtMidleware, challengeController.challengeDestroy);
 
 // comments routes
-app.post('/challenges/:challengeId/comments', jwtMidleware, commentController.commentCreate);
-app.post('/challenges/:challengeId/comments/:commentId', jwtMidleware, commentController.comment2ndCreate);
+app.post('/challenges/:level/comments', jwtMidleware, commentController.commentCreate);
+app.post('/challenges/:level/comments/:commentId/comments', jwtMidleware, commentController.comment2ndCreate);
 
 
 // authentication routes
