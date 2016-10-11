@@ -24,30 +24,38 @@ export function challengeRetrieveList(req, res) {
 }
 
 export function challengeRetrieveOne(req, res) {
-    if (!req.params.level) {
-        sendJSONresponse(res, 404, {
-            message: 'No level in the request'
-        });
-        return;
-    }
-    Challenge
-        .findOne({level: req.params.level})
-        .populate('comments._creator', '-hash -salt')
-        .populate('comments.comments._creator', '-hash -salt')
-        .exec((err, challenge) => {
-            if (err) {
-                sendJSONresponse(res, 400, err);
-                return;
-            }
-            if (!challenge) {
-                sendJSONresponse(res, 404, {
-                    message: 'Challenge not found'
-                });
-                return;
-            }
-            sendJSONresponse(res, 200, challenge);
+    getUser(req, res, (_req, _res, user) => {
+        if (!req.params.level) {
+            sendJSONresponse(res, 404, {
+                message: 'No level in the request'
+            });
             return;
-        });
+        }
+        if (req.params.level > user.level) {
+            sendJSONresponse(res, 401, {
+                message: 'Unauthorized'
+            });
+            return;
+        }
+        Challenge
+            .findOne({level: req.params.level})
+            .populate('comments._creator', '-hash -salt')
+            .populate('comments.comments._creator', '-hash -salt')
+            .exec((err, challenge) => {
+                if (err) {
+                    sendJSONresponse(res, 400, err);
+                    return;
+                }
+                if (!challenge) {
+                    sendJSONresponse(res, 404, {
+                        message: 'Challenge not found'
+                    });
+                    return;
+                }
+                sendJSONresponse(res, 200, challenge);
+                return;
+            });
+    });
 }
 
 export function challengeCreate(req, res) {
