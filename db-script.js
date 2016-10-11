@@ -3,7 +3,6 @@
  */
 
 /* eslint-disable */
-var crypto = require('crypto');
 
 db = db.getSiblingDB('social-samurai');
 db.getCollectionNames();
@@ -34,6 +33,7 @@ db.challenges.insertOne({
     title: "Challenge 1: Who is Social Samurai?",
     description: "Go to 5 strangers and get compliments from them.",
     videoUrl: "v7UIz_ANLb0",
+    thumbnailUrl: '/handshake.png',
     level: 1,
     comments: [
         {
@@ -57,16 +57,18 @@ db.challenges.insertOne({
     ]
 });
 db.challenges.insertOne({
-    title: "Challenge 2",
+    title: "Challenge 2: Hugging",
     description: "Smile honey",
     videoUrl: "Test url",
+    thumbnailUrl: '/hugging.png',
     level: 2,
     comments: []
 });
 db.challenges.insertOne({
-    title: "Challenge 3",
+    title: "Challenge 3: Shouting",
     description: "Chicken noodle",
     videoUrl: "Test url",
+    thumbnailUrl: '/shouting.png',
     level: 3,
     comments: []
 });

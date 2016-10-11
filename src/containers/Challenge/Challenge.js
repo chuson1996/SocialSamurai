@@ -37,7 +37,7 @@ class Challenge extends Component {
 	}
 
 	levelUp = () => {
-		console.log(this.props.session.data.user._id);
+		console.log(this.props.session.user._id);
 	};
 
 	render() {
