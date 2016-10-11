@@ -7,6 +7,9 @@ import { isLoaded as isAuthLoaded,
 	load as loadAuth,
 	// logout
 } from 'redux/modules/auth';
+import {
+	load as loadSession,
+} from 'redux/modules/session';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
@@ -18,6 +21,7 @@ import { asyncConnect } from 'redux-async-connect';
 		if (!isAuthLoaded(getState())) {
 			promises.push(dispatch(loadAuth()));
 		}
+		promises.push(dispatch(loadSession()));
 
 		return Promise.all(promises);
 	}

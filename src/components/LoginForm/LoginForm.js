@@ -30,7 +30,7 @@ export default class LoginForm extends Component {
 	};
 
 	handleSubmit = (values) => {
-		this.props.login(values).then(({token}) => {
+		this.props.login(values).then(() => {
 			browserHistory.push('/');
 		});
 	};

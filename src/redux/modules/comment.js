@@ -1,3 +1,5 @@
+// import update from 'react-addons-update';
+
 const LOAD = 'social-samurai/comment/LOAD';
 const LOAD_SUCCESS = 'social-samurai/comment/LOAD_SUCCESS';
 const LOAD_FAIL = 'social-samurai/comment/LOAD_FAIL';
@@ -51,7 +53,7 @@ export function isLoaded(globalState) {
 	return globalState.auth && globalState.auth.loaded;
 }
 
-export function saveComment({ challengeId, commentId }) {
+export function saveComment({ challengeId, commentId, body }) {
 	return {
 		types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
 		promise: (client) => {
@@ -61,9 +63,17 @@ export function saveComment({ challengeId, commentId }) {
 				});
 			}
 
-			if (commentId) return client.post(`/challenges/${challengeId}/comments/${commentId}`);
+			if (commentId) {
+					return client.post(`/challenges/${challengeId}/comments/${commentId}`, {
+						data: {
+							body
+						}
+					}).then((res) => Promise.resolve({ ...res, parentChallengeId: challengeId, parentCommentId: commentId }));
+			}
 
-			return client.post(`/challenges/${challengeId}/comments`);
+			return client.post(`/challenges/${challengeId}/comments`, {
+				data: { body }
+			}).then((res) => Promise.resolve({ ...res, parentChallengeId: challengeId }));
 		}
 	};
 }
