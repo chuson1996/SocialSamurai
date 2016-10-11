@@ -8,7 +8,7 @@ const sendJSONresponse = (res, status, content) => {
 };
 
 export function challengeRetrieveList(req, res) {
-    getUser(req, res, (req, res, user) => {
+    getUser(req, res, (_req, _res, user) => {
         Challenge
             .find({})
             .select('_id title thumbnailUrl')
@@ -31,7 +31,7 @@ export function challengeRetrieveOne(req, res) {
         return;
     }
     Challenge
-        .findById(req.params.challengeId)
+        .find({level: req.params.challengeId})
         .populate('comments._creator')
         .populate('comments.comments._creator')
         .exec((err, challenge) => {
