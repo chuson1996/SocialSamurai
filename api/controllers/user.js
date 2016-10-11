@@ -110,7 +110,7 @@ export function userLevelUp(req, res) {
         return;
     }
     User
-        .findById(req.body.userId)
+        .findById(req.params.userId)
         .exec((err, user) => {
             user.level = user.level + 1;
             user.save((err, user) => {
