@@ -31,7 +31,7 @@ export function challengeRetrieveOne(req, res) {
         return;
     }
     Challenge
-        .find({level: req.params.level})
+        .findOne({level: req.params.level})
         .populate('comments._creator', '-hash -salt')
         .populate('comments.comments._creator', '-hash -salt')
         .exec((err, challenge) => {

@@ -1,6 +1,8 @@
 /**
  * Created by hieu on 9/27/16.
  */
+
+/* eslint-disable */
 var crypto = require('crypto');
 
 db = db.getSiblingDB('social-samurai');
