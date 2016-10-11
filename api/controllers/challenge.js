@@ -32,8 +32,8 @@ export function challengeRetrieveOne(req, res) {
     }
     Challenge
         .find({level: req.params.level})
-        .populate('comments._creator')
-        .populate('comments.comments._creator')
+        .populate('comments._creator', '-hash -salt')
+        .populate('comments.comments._creator', '-hash -salt')
         .exec((err, challenge) => {
             if (err) {
                 sendJSONresponse(res, 400, err);
