@@ -11,7 +11,7 @@ export function challengeRetrieveList(req, res) {
     getUser(req, res, (_req, _res, user) => {
         Challenge
             .find({})
-            .select('_id title thumbnailUrl')
+            .select('level title thumbnailUrl')
             .exec((err, challenges) => {
                 if (err) {
                     sendJSONresponse(res, 400, err);
@@ -24,14 +24,14 @@ export function challengeRetrieveList(req, res) {
 }
 
 export function challengeRetrieveOne(req, res) {
-    if (!req.params.challengeId) {
+    if (!req.params.level) {
         sendJSONresponse(res, 404, {
-            message: 'No challengeId in the request'
+            message: 'No level in the request'
         });
         return;
     }
     Challenge
-        .find({level: req.params.challengeId})
+        .find({level: req.params.level})
         .populate('comments._creator')
         .populate('comments.comments._creator')
         .exec((err, challenge) => {

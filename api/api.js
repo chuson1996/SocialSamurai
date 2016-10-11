@@ -66,7 +66,7 @@ app.post('/users/:userId/levelup', jwtMidleware, userController.userLevelUp);
 
 // challenge routes
 app.get('/challenges', jwtMidleware, challengeController.challengeRetrieveList);
-app.get('/challenges/:challengeId', challengeController.challengeRetrieveOne);
+app.get('/challenges/:level', challengeController.challengeRetrieveOne);
 app.post('/challenges', jwtMidleware, challengeController.challengeCreate);
 app.put('/challenges/:challengeId', jwtMidleware, challengeController.challengeModify);
 app.delete('/challenges/:challengeId', jwtMidleware, challengeController.challengeDestroy);
