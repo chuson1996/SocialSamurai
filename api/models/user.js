@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     level: {
         type: Number,
         required: true,
-        default: 0
+        default: 1
     },
     avatarUrl: {
         type: String,

@@ -1,6 +1,8 @@
 /**
  * Created by hieu on 9/27/16.
  */
+var crypto = require('crypto');
+
 db = db.getSiblingDB('social-samurai');
 db.getCollectionNames();
 
@@ -9,10 +11,18 @@ db.users.drop();
 db.createCollection('users');
 db.users.insertOne({
     _id: ObjectId('000011112222333344445555'),
+    email: "john@email.com",
+    name: "Tri Tran",
+    hash: "6f4e5b9923ccc892d0429ea9948ce46c5025f818fc351a15b9c6a677fa9333ae720b1526bfd6762faedef9ff07b229bf565c804cc890bc4fc86b5a2663d379b1",
+    salt: "698b5e3bf3576b010f4990a0da65c8d4"
+});
+
+db.users.insertOne({
+    _id: ObjectId('000011112222333344445556'),
     email: "admin@email.com",
-    name: "admin",
-    hash: "Test hash",
-    salt: "Test salt"
+    name: "Admin",
+    hash: "6f4e5b9923ccc892d0429ea9948ce46c5025f818fc351a15b9c6a677fa9333ae720b1526bfd6762faedef9ff07b229bf565c804cc890bc4fc86b5a2663d379b1",
+    salt: "698b5e3bf3576b010f4990a0da65c8d4"
 });
 
 // Populate challenges
@@ -28,7 +38,7 @@ db.challenges.insertOne({
             body: "What is love?",
             comments: [
                 {
-                    _creator: ObjectId('000011112222333344445555'),
+                    _creator: ObjectId('000011112222333344445556'),
                     body: "Baby don't hurt me"
                 },
                 {
@@ -36,7 +46,7 @@ db.challenges.insertOne({
                     body: "Don't hurt me"
                 },
                 {
-                    _creator: ObjectId('000011112222333344445555'),
+                    _creator: ObjectId('000011112222333344445556'),
                     body: "No more"
                 }
             ]
