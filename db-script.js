@@ -29,9 +29,10 @@ db.users.insertOne({
 db.challenges.drop();
 db.createCollection('challenges');
 db.challenges.insertOne({
-    title: "Challenge 1",
-    description: "Dance baby",
+    title: "Challenge 1: Who is Social Samurai?",
+    description: "Go to 5 strangers and get compliments from them.",
     videoUrl: "v7UIz_ANLb0",
+    level: 1,
     comments: [
         {
             _creator: ObjectId('000011112222333344445555'),
@@ -57,11 +58,13 @@ db.challenges.insertOne({
     title: "Challenge 2",
     description: "Smile honey",
     videoUrl: "Test url",
+    level: 2,
     comments: []
 });
 db.challenges.insertOne({
     title: "Challenge 3",
     description: "Chicken noodle",
     videoUrl: "Test url",
+    level: 3,
     comments: []
 });

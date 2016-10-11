@@ -38,6 +38,15 @@ const challengeSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    thumbnailUrl: {
+        type: String,
+        required: true,
+        default: ""
+    },
+    level: {
+        type: Number,
+        required: true
+    },
     comments: [commentSchema]
 });
 

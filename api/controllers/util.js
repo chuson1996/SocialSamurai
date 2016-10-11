@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 let User = mongoose.model('User');
 
+const sendJSONresponse = (res, status, content) => {
+    res.status(status);
+    res.json(content);
+};
+
 export function getUser(req, res, callback) {
     if (!req.payload._id) {
         sendJSONresponse(res, 404, {

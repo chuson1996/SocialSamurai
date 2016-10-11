@@ -11,14 +11,13 @@ export function challengeRetrieveList(req, res) {
     getUser(req, res, (req, res, user) => {
         Challenge
             .find({})
-            .populate('comments._creator', '-hash -salt')
-            .populate('comments.comments._creator', '-hash -salt')
+            .select('_id title thumbnailUrl')
             .exec((err, challenges) => {
                 if (err) {
                     sendJSONresponse(res, 400, err);
                     return;
                 }
-                sendJSONresponse(res, 200, challenges.slice(0, user.level));
+                sendJSONresponse(res, 200, challenges);
                 return;
             });
     })
