@@ -100,9 +100,9 @@ export function comment2ndCreate(req, res) {
 		return;
 	}
 	getUser(req, res, (_req, _res, user) => {
-		if (!_req.params.challengeId) {
+		if (!_req.params.level) {
 			sendJSONresponse(_res, 404, {
-				message: 'No challengeId in the request'
+				message: 'No level in the request'
 			});
 			return;
 		}
@@ -113,7 +113,7 @@ export function comment2ndCreate(req, res) {
 			return;
 		}
 		Challenge
-			.findById(_req.params.challengeId)
+			.findOne({level: _req.params.level})
 			.select('comments')
 			.exec((err, challenge) => {
 				if (err) {
