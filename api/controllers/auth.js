@@ -11,7 +11,6 @@ const sendJSONresponse = (res, status, content) => {
 };
 
 export function register(req, res) {
-	console.log(req.body);
 	if (!req.body.name || !req.body.email || !req.body.password) {
 		sendJSONresponse(res, 400, {
 			message: 'Name, email and password are required'
@@ -26,7 +25,6 @@ export function register(req, res) {
 
 	user.save((err) => {
 		if (err) {
-			console.log(err);
 			sendJSONresponse(res, 404, {
 				message: `There is an existing account associated with ${user.email}`
 			});
@@ -65,7 +63,17 @@ export function login(req, res) {
 	})(req, res);
 }
 
-export function session(req, res) {
+export function session(err, req, res, next) {
+	if (err && err.name === 'UnauthorizedError') {
+		sendJSONresponse(res, 401, {
+			message: `${err.name}: ${err.message}`
+		});
+		return;
+	}
+	if (err) {
+		sendJSONresponse(res, 400, err);
+		return;
+	}
 	getUser(req, res, (_req, _res, user) => {
 		Challenge
 			.find({})
@@ -76,8 +84,8 @@ export function session(req, res) {
 					user: user,
 					challenges: challenges.slice(0, user.level)
 				});
-			}).catch((err) => {
-				res.status(400).json(err);
+			}).catch((_err) => {
+				res.status(400).json(_err);
 			});
 	});
 }
