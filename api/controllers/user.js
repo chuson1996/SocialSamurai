@@ -73,7 +73,7 @@ export function userModify(req, res) {
             }
             user.save((err, user) => {
                 if (err) {
-                    sendJSONresponse(res, 404, err);
+                    sendJSONresponse(res, 400, err);
                     return;
                 }
                 const token = user.generateJwt();
@@ -95,7 +95,7 @@ export function userDestroy(req, res) {
         .findByIdAndRemove(req.params.userId)
         .exec((err, user) => {
             if (err) {
-                sendJSONresponse(res, 404, err);
+                sendJSONresponse(res, 400, err);
                 return;
             }
             sendJSONresponse(res, 204, null);
@@ -112,10 +112,20 @@ export function userLevelUp(req, res) {
     User
         .findById(req.params.userId)
         .exec((err, user) => {
+            if (err) {
+                sendJSONresponse(res, 400, err);
+                return;
+            }
+            if (!user) {
+                sendJSONresponse(res, 404, {
+                    message: 'User not found'
+                });
+                return;
+            }
             user.level = user.level + 1;
             user.save((err, user) => {
                 if (err) {
-                    sendJSONresponse(res, 404, err);
+                    sendJSONresponse(res, 400, err);
                     return;
                 }
                 const token = user.generateJwt();
