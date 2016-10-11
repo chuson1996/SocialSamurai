@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-let User = mongoose.model('User');
-let Challenge = mongoose.model('Challenge');
+const User = mongoose.model('User');
+const Challenge = mongoose.model('Challenge');
 
 const sendJSONresponse = (res, status, content) => {
     res.status(status);
@@ -23,7 +23,7 @@ export function userRetrieveList(req, res) {
 export function userRetrieveOne(req, res) {
     if (!req.params.userId) {
         sendJSONresponse(res, 404, {
-            message: "No userId in the request"
+            message: 'No userId in the request'
         });
         return;
     }
@@ -37,18 +37,18 @@ export function userRetrieveOne(req, res) {
             }
             if (!user) {
                 sendJSONresponse(res, 404, {
-                    message: "User not found"
+                    message: 'User not found'
                 });
                 return;
             }
             sendJSONresponse(res, 200, user);
             return;
-        })
+        });
 }
 
 export function userCreate(req, res) {
     sendJSONresponse(res, 404, {
-        message: "Use endpoint /api/register instead"
+        message: 'Use endpoint /api/register instead'
     });
     return;
 }
@@ -56,7 +56,7 @@ export function userCreate(req, res) {
 export function userModify(req, res) {
     if (!req.params.userId) {
         sendJSONresponse(res, 404, {
-            messasge: "No userId in the request"
+            messasge: 'No userId in the request'
         });
     }
     User
@@ -87,7 +87,7 @@ export function userModify(req, res) {
 export function userDestroy(req, res) {
     if (!req.body.userId) {
         sendJSONresponse(res, 404, {
-            message: "No userId in the request"
+            message: 'No userId in the request'
         });
         return;
     }
@@ -100,7 +100,7 @@ export function userDestroy(req, res) {
             }
             sendJSONresponse(res, 204, null);
             return;
-        })
+        });
 }
 export function userLevelUp(req, res) {
     if (!req.body.userId) {

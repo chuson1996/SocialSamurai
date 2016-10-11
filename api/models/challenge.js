@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-var comment2ndSchema = mongoose.Schema({
+const comment2ndSchema = mongoose.Schema({
     _creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'

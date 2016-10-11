@@ -34,7 +34,6 @@ export default (store) => {
 		function checkAuth() {
 			const { auth: { loaded }} = store.getState();
 			if (loaded) {
-				// oops, not logged in, so can't be here!
 				replace('/');
 			}
 			cb();

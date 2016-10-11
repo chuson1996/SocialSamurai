@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import {getUser} from './util';
-let Challenge = mongoose.model('Challenge');
+const Challenge = mongoose.model('Challenge');
 
 const sendJSONresponse = (res, status, content) => {
     res.status(status);
@@ -20,13 +20,13 @@ export function challengeRetrieveList(req, res) {
                 sendJSONresponse(res, 200, challenges);
                 return;
             });
-    })
-};
+    });
+}
 
 export function challengeRetrieveOne(req, res) {
     if (!req.params.challengeId) {
         sendJSONresponse(res, 404, {
-            message: "No challengeId in the request"
+            message: 'No challengeId in the request'
         });
         return;
     }
@@ -41,14 +41,14 @@ export function challengeRetrieveOne(req, res) {
             }
             if (!challenge) {
                 sendJSONresponse(res, 404, {
-                    message: "Challenge not found"
+                    message: 'Challenge not found'
                 });
                 return;
             }
             sendJSONresponse(res, 200, challenge);
             return;
-        })
-};
+        });
+}
 
 export function challengeCreate(req, res) {
     Challenge.create({
@@ -68,7 +68,7 @@ export function challengeCreate(req, res) {
 export function challengeModify(req, res) {
     if (!req.params.challengeId) {
         sendJSONresponse(res, 404, {
-            message: "No challengeId in the request"
+            message: 'No challengeId in the request'
         });
         return;
     }
