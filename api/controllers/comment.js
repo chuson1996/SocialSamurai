@@ -16,7 +16,7 @@ const addComment = (req, res, challenge, user) => {
 		return;
 	}
 	challenge.comments.push({
-		_creator: user._id,
+		_creator: user,
 		body: req.body.body,
 		comment: []
 	});
@@ -51,7 +51,7 @@ const add2ndComment = (req, res, challenge, user) => {
 		return;
 	}
 	comment.comments.push({
-		_creator: user._id,
+		_creator: user,
 		body: req.body.body
 	});
 	challenge.save((err) => {
