@@ -103,7 +103,7 @@ export function userDestroy(req, res) {
         });
 }
 export function userLevelUp(req, res) {
-    if (!req.body.userId) {
+    if (!req.params.userId) {
         sendJSONresponse(res, 404, {
             message: "No userId in the request"
         });
