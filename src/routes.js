@@ -18,14 +18,14 @@ export default (store) => {
 
 
 	const requireLogin = (_store, nextState, action) => {
-		function checkAuth() {
+		const checkAuth = () => {
 			const { auth: { loaded }} = _store.getState();
 			if (!loaded) {
 				// oops, not logged in, so can't be here!
 				action.replace('/login');
 			}
 			action.next();
-		}
+		};
 
 		if (!isAuthLoaded(_store.getState())) {
 			_store.dispatch(loadAuth())
@@ -56,17 +56,17 @@ export default (store) => {
 	};
 
 
-	const isLoggedIn = (nextState, replace, cb) => {
-		function checkAuth() {
-			const { auth: { loaded }} = store.getState();
+	const isLoggedIn = (_store, nextState, action) => {
+		const checkAuth = () => {
+			const { auth: { loaded }} = _store.getState();
 			if (loaded) {
-				replace('/');
+				action.replace('/');
 			}
-			cb();
-		}
+			action.next();
+		};
 
-		if (!isAuthLoaded(store.getState())) {
-			store.dispatch(loadAuth())
+		if (!isAuthLoaded(_store.getState())) {
+			_store.dispatch(loadAuth())
 				.then(checkAuth)
 				.catch(checkAuth);
 		} else {
@@ -78,8 +78,8 @@ export default (store) => {
 		<Route path="/" component={App}>
 			{ /* Home (main) route */ }
 			<IndexRoute component={Home} onEnter={combine([requireLogin])} />
-			<Route path="register" component={Register} onEnter={isLoggedIn} />
-			<Route path="login" component={Login} onEnter={isLoggedIn} />
+			<Route path="register" component={Register} onEnter={combine([isLoggedIn])} />
+			<Route path="login" component={Login} onEnter={combine([isLoggedIn])} />
 
 			{ /* Routes requiring login */ }
 			<Route path="challenges/:challengeId" component={Challenge} onEnter={combine([requireLogin, checkUserLevel])} />
