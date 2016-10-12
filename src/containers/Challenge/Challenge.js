@@ -6,7 +6,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import Youtube from 'react-youtube';
 import { Comment } from 'components';
 import { connect } from 'react-redux';
-// import get from 'lodash/get';
+import get from 'lodash/get';
 // import find from 'lodash/find';
 import Image from 'react-bootstrap/lib/Image';
 import { saveComment as _saveComment } from 'redux/modules/challenge';
@@ -26,8 +26,8 @@ import classNames from 'classnames';
 @connect(
 	(state) => ({
 		challenge: state.challenge.data,
-		userId: state.session.data.user._id,
-		userLevel: state.session.data.user.level
+		userId: get(state, 'session.data.user._id'),
+		userLevel: get(state, 'session.data.user.level')
 	}),
 	{
 		saveComment: _saveComment,

@@ -34,7 +34,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-	return globalState.auth && globalState.auth.loaded;
+	return globalState.session && globalState.session.loaded;
 }
 
 export function load() {
