@@ -4,8 +4,7 @@ export default (store) => (middlewares) => (nextState, replace, cb) => {
 		replace,
 		next: () => {
 			if (current < middlewares.length) {
-				current++;
-				middlewares[current - 1](store, nextState, action);
+				middlewares[current++](store, nextState, action);
 			} else {
 				cb();
 			}
